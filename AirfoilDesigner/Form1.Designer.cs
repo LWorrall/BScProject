@@ -42,9 +42,15 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.btnGenPop = new System.Windows.Forms.Button();
+            this.lblPopSize = new System.Windows.Forms.Label();
+            this.txtPopSize = new System.Windows.Forms.TextBox();
+            this.grpPop = new System.Windows.Forms.GroupBox();
+            this.btnRunEpoch = new System.Windows.Forms.Button();
+            this.lblGenNum = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.grpPop.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnRunXFoil
@@ -170,7 +176,8 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.btnGenPop);
+            this.tabPage2.Controls.Add(this.lblGenNum);
+            this.tabPage2.Controls.Add(this.grpPop);
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -181,13 +188,60 @@
             // 
             // btnGenPop
             // 
-            this.btnGenPop.Location = new System.Drawing.Point(6, 6);
+            this.btnGenPop.Location = new System.Drawing.Point(6, 45);
             this.btnGenPop.Name = "btnGenPop";
-            this.btnGenPop.Size = new System.Drawing.Size(126, 23);
+            this.btnGenPop.Size = new System.Drawing.Size(158, 23);
             this.btnGenPop.TabIndex = 0;
             this.btnGenPop.Text = "Generate Population";
             this.btnGenPop.UseVisualStyleBackColor = true;
             this.btnGenPop.Click += new System.EventHandler(this.btnGenPop_Click);
+            // 
+            // lblPopSize
+            // 
+            this.lblPopSize.AutoSize = true;
+            this.lblPopSize.Location = new System.Drawing.Point(6, 19);
+            this.lblPopSize.Name = "lblPopSize";
+            this.lblPopSize.Size = new System.Drawing.Size(91, 15);
+            this.lblPopSize.TabIndex = 1;
+            this.lblPopSize.Text = "Population Size:";
+            // 
+            // txtPopSize
+            // 
+            this.txtPopSize.Location = new System.Drawing.Point(103, 16);
+            this.txtPopSize.Name = "txtPopSize";
+            this.txtPopSize.Size = new System.Drawing.Size(61, 23);
+            this.txtPopSize.TabIndex = 2;
+            // 
+            // grpPop
+            // 
+            this.grpPop.Controls.Add(this.btnRunEpoch);
+            this.grpPop.Controls.Add(this.lblPopSize);
+            this.grpPop.Controls.Add(this.btnGenPop);
+            this.grpPop.Controls.Add(this.txtPopSize);
+            this.grpPop.Location = new System.Drawing.Point(6, 6);
+            this.grpPop.Name = "grpPop";
+            this.grpPop.Size = new System.Drawing.Size(171, 104);
+            this.grpPop.TabIndex = 3;
+            this.grpPop.TabStop = false;
+            this.grpPop.Text = "Population";
+            // 
+            // btnRunEpoch
+            // 
+            this.btnRunEpoch.Location = new System.Drawing.Point(6, 74);
+            this.btnRunEpoch.Name = "btnRunEpoch";
+            this.btnRunEpoch.Size = new System.Drawing.Size(158, 23);
+            this.btnRunEpoch.TabIndex = 4;
+            this.btnRunEpoch.Text = "Run One Epoch";
+            this.btnRunEpoch.UseVisualStyleBackColor = true;
+            // 
+            // lblGenNum
+            // 
+            this.lblGenNum.AutoSize = true;
+            this.lblGenNum.Location = new System.Drawing.Point(6, 113);
+            this.lblGenNum.Name = "lblGenNum";
+            this.lblGenNum.Size = new System.Drawing.Size(115, 15);
+            this.lblGenNum.TabIndex = 4;
+            this.lblGenNum.Text = "Generation Number:";
             // 
             // frmMainWindow
             // 
@@ -202,6 +256,9 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            this.grpPop.ResumeLayout(false);
+            this.grpPop.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -221,5 +278,10 @@
         private TabPage tabPage1;
         private TabPage tabPage2;
         private Button btnGenPop;
+        public Label lblGenNum;
+        private GroupBox grpPop;
+        private Button btnRunEpoch;
+        private Label lblPopSize;
+        private TextBox txtPopSize;
     }
 }
