@@ -340,7 +340,6 @@
         private Button btnRunTest;
         private TextBox txtLDRatio;
         private Button btnLDRatio;
-        private TextBox txtReynolds;
         private Label lblReynolds;
         private TabControl tabControl1;
         private TabPage tabPage1;
@@ -357,5 +356,6 @@
         private TextBox txtMaxVal;
         private Label lblMaxVal;
         public TextBox txtNormVals;
+        public TextBox txtReynolds;
     }
 }

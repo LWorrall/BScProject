@@ -1,63 +1,83 @@
 ﻿using System;
-using System.Drawing;
+using System.Collections.Generic;
 
-public static class Bezier
+public class Bezier
 {
-    public static PointF[] GetAirfoilCoordinates(float chord, float thickness, float camber, float camberLocation, float leadingEdgeRadius, int numberOfPoints)
+    private int bezierDegree;
+    private List<int> binomialCoeffs = new List<int>();
+    private List<double> tList = new List<double>();
+    private List<double> tSquaredList = new List<double>();
+
+    public Bezier(int degree)
     {
-        // Define the control points of the airfoil shape
-        float x, y;
-        float t = 0;
-        PointF[] controlPoints = new PointF[numberOfPoints];
-        for (int i = 0; i < numberOfPoints; i++)
+        this.bezierDegree = degree;
+
+        // initialise the lists' values to 0.
+        for (int i = 0; i < bezierDegree; i++)
         {
-            x = chord * t;
-            //
-            y = (float)(thickness / 2 * (2 * camber * t - t * t - 2 * camberLocation) + 
-                (thickness / 10 * (0.2969f * Math.Sqrt(x) - 0.1260f * x - 0.3516f * Math.Pow(x, 2) + 0.2843f * Math.Pow(x, 3) - 0.1015f * Math.Pow(x, 4))));
-            controlPoints[i] = new PointF(x, y);
-            t += 1.0f / (numberOfPoints - 1);
+            binomialCoeffs.Add(0);
+            tList.Add(0);
+            tSquaredList.Add(0);
         }
+        binomialCoeffs[0] = 1;
 
-        // Add the control points for the leading edge radius
-        float radius = leadingEdgeRadius / chord;
-        controlPoints[0].Y -= radius * thickness / 2;
-        controlPoints[numberOfPoints - 1].Y += radius * thickness / 2;
-        controlPoints[0].X += radius * chord;
-        controlPoints[numberOfPoints - 1].X += radius * chord;
 
-        // Calculate the curve coordinates
-        PointF[] airfoilCoordinates = new PointF[numberOfPoints];
-        for (int i = 0; i < numberOfPoints; i++)
+        for (int i = 1; i <= bezierDegree; i++)
         {
-            float t2 = (float)i / (numberOfPoints - 1);
-            airfoilCoordinates[i] = CalculateBezierPoint(t2, controlPoints);
+            int temp = binomialCoeffs[0];
+            for (int j = 1; j < i; j++)
+            {
+                int temp2 = binomialCoeffs[j];
+                binomialCoeffs[j] = temp + binomialCoeffs[j];
+                temp = temp2;
+            }
         }
-
-        // Draw the airfoil using Graphics.DrawLines
-        using (Graphics graphics = Graphics.FromImage(new Bitmap(1, 1)))
-        {
-            Pen pen = new Pen(Color.Black);
-            graphics.DrawLines(pen, airfoilCoordinates);
-        }
-
-        return airfoilCoordinates;
     }
 
-    private static PointF CalculateBezierPoint(float t, PointF[] controlPoints)
+    public List<double> Interpolate(List<double> coefs, int n)
     {
-        float u = 1 - t;
-        float tt = t * t;
-        float uu = u * u;
-
-        float x = uu * controlPoints[0].X;
-        x += 2 * u * t * controlPoints[1].X;
-        x += tt * controlPoints[2].X;
-
-        float y = uu * controlPoints[0].Y;
-        y += 2 * u * t * controlPoints[1].Y;
-        y += tt * controlPoints[2].Y;
-
-        return new PointF(x, y);
+        List<double> output = new List<double>();
+        for (int i = 0; i <= n; i++)
+        {
+            output.Add(0);
+        }
+        double step = 1.0 / (double)n;
+        double t = 0;
+        output[0] = coefs[0];
+        for (int i = 1; i <= n; i++)
+        {
+            t += step;
+            double tt = 1.0 - t;
+            double ttemp = 1.0;
+            double tttemp = 1.0;
+            for (int j = 0; j < bezierDegree; j++)
+            {
+                tList[j] = ttemp;
+                tSquaredList[bezierDegree - j - 1] = tttemp;
+                ttemp *= t;
+                tttemp *= tt;
+            }
+            output[i] = 0;
+            for (int j = 0; j < bezierDegree; j++)
+            {
+                output[i] += coefs[j] * tSquaredList[j] * tList[j] * binomialCoeffs[j];
+            }
+        }
+        return output;
     }
 }
+
+/*
+public class Program
+{
+    public static void Main()
+    {
+        Bezier MyBezier = new Bezier(5);
+        List<double> bezierout = MyBezier.Interpolate(new List<int>() { 0, 3, 2, 1, 0 }, 100);
+        foreach (double d in bezierout)
+        {
+            Console.WriteLine(d);
+        }
+    }
+}
+*/

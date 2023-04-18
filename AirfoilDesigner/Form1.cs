@@ -97,7 +97,9 @@ namespace AirfoilDesigner
                 txtLDRatio.AppendText(Environment.NewLine);
                 txtLDRatio.AppendText(Environment.NewLine);
                 var lDRatioList = new List<double>();
-                for (int i = 12; i < 26; i++)
+
+                //for (int i = 12; i < 26; i++)
+                for (int i = 12; i < lines.Length; i++)
                 {
                     string[] words = lines[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
                     double ldratio = Convert.ToDouble(words[1]) / Convert.ToDouble(words[2]);
