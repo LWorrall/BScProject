@@ -69,7 +69,7 @@ namespace AirfoilDesigner
                         sw.WriteLine("vpar"); // Change BL parameters
                         sw.WriteLine("n 9"); // Change critical amplification exponent
                         sw.WriteLine(" ");
-                        sw.WriteLine("visc 40000"); // Toggle to viscous mode and set Reynold's number
+                        sw.WriteLine($"visc {txtReynolds.Text}"); // Toggle to viscous mode and set Reynold's number
                         sw.WriteLine("pacc"); // Toggle auto point accumulation to active polar
                         sw.WriteLine($"{name}.log"); // Polar save filename
                         sw.WriteLine(" ");
@@ -121,11 +121,18 @@ namespace AirfoilDesigner
         private void frmMainWindow_Load(object sender, EventArgs e)
         {
             txtReynolds.Text = "40000";
+            
+            txtPopSize.Text = "10";
+            txtArrayLen.Text = "50";
+            GA.UpdateArrayLen(Convert.ToInt32(txtArrayLen.Text));
+            txtMaxVal.Text = "150000";
+            GA.UpdateArrayMaxVal(Convert.ToInt32(txtMaxVal.Text));
         }
 
         private void btnGenPop_Click(object sender, EventArgs e)
         {
             GA.GenPop();
+            btnRunEpoch.Enabled = true;
         }
     }
 }

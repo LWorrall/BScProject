@@ -1,12 +1,20 @@
 ﻿using System;
 using AForge.Genetic;
 
+
 namespace AirfoilDesigner
 {
     public class GA
     {
+        public static int arrayLen { get; set; }    // Default 50
+        public static int arrayMaxVal { get; set; } // Default 150000
+        public static void UpdateArrayLen(int x) { arrayLen = x; }
+        public static void UpdateArrayMaxVal(int x) { arrayMaxVal = x; }
+
         // Instanciating objects and creating properties.
-        public static BinaryChromosome InitialAgent = new BinaryChromosome(60);
+        // The two variables in the constructor are for the chromosome's array length,
+        // and the maximum value the array elements can be.
+        public static ShortArrayChromosome InitialAgent = new ShortArrayChromosome(arrayLen, arrayMaxVal);
         public static LiftMaximiser FitnessFunction = new LiftMaximiser();
         public static EliteSelection SelectionMethod = new EliteSelection();
 
@@ -32,7 +40,7 @@ namespace AirfoilDesigner
             GenerationNumber++;
             Population.RunEpoch();
 
-            BinaryChromosome bestAgent = Population.BestChromosome as BinaryChromosome;
+            ShortArrayChromosome bestAgent = Population.BestChromosome as ShortArrayChromosome;
             double bestValue = FitnessFunction.Translate(bestAgent);
 
             // Display the values on the labels in the window.
@@ -42,17 +50,17 @@ namespace AirfoilDesigner
 
     public class LiftMaximiser : OptimizationFunction1D
     {
-        public LiftMaximiser() : base( new AForge.Range( 0, 15 ) ) { }
+        public LiftMaximiser() : base( new AForge.Range( 0, 150000 ) ) { }
         // The range specifies the range of values that the chromosome can have.
 
         int airfoilCounter = 0;
         public override double OptimizationFunction(double x) // x is what the chromosome's input value.
         {
             airfoilCounter++;   // Counter will be used to number each airfoil file.
-
+            
             // Needs code to take each chromosome and generate an airfoil with them, then save it as an airfoil file.
 
-
+            // Needs code to test airfoil and generate the log file.
 
             // Function to calculate the average Lift to Drag ratio of the tested aerofoil.
             string[] lines = System.IO.File.ReadAllLines($"{airfoilCounter}.log");
@@ -67,6 +75,7 @@ namespace AirfoilDesigner
                 lDRatioList.Add(ldratio);
                 Array.Clear(words);
             }
+            // The greater the value of lift to drag ratio, the better the chromosome.
             double average = Queryable.Average(lDRatioList.AsQueryable());
             return average;
         }
