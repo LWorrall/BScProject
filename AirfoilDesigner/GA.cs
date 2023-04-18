@@ -13,11 +13,7 @@ namespace AirfoilDesigner
         public static void UpdateArrayLen(int x) { arrayLen = x; }
         public static void UpdateArrayMaxVal(int x) { arrayMaxVal = x; }
 
-        //public static ShortArrayChromosome InitialAgent = new ShortArrayChromosome(arrayLen, arrayMaxVal);
         public static ShortArrayChromosome InitialAgent = new ShortArrayChromosome(8, 100);
-
-        //public static BinaryChromosome InitialAgent = new BinaryChromosome(64);
-        //public static LiftMaximiser FitnessFunction = new LiftMaximiser();
 
         public static AirfoilFitness FitnessFunction = new AirfoilFitness();
         public static EliteSelection SelectionMethod = new EliteSelection();
@@ -44,26 +40,26 @@ namespace AirfoilDesigner
             // Run one epoch.
 
             GenerationNumber++;
+            Program.form1.lblGenNum.Text = $"Generation Number: {GenerationNumber}";
+            // The 'RunEpoch' method performs crossover, mutation and selection.
+            // THe mutation rate is specified by Population.MutationRate, which is 0.1 by default.
+            Debug.WriteLine(Population.MutationRate);
             Population.RunEpoch();
 
             ShortArrayChromosome bestAgent = Population.BestChromosome as ShortArrayChromosome;
             double bestValue = FitnessFunction.Evaluate(bestAgent);
-
-            // Display the values on the labels in the window.
-            Program.form1.lblGenNum.Text = $"Generation Number: {GenerationNumber}";
         }
 
         public static void testAirfoil()
         {
             // This method will load the airfoil file created by the GenAirfoil method into xFoil.
             // The streamwriter enters commands into xFoil to run a series of tests, and generate a log file.
-            //string xFoilPath = "../../../../xfoilP4.exe";
             string xFoilPath = "xfoilP4.exe";
             string name = Convert.ToString(ChromosomeNumber);
             Process xFoil = new Process();
             xFoil.StartInfo.FileName = xFoilPath;
+            xFoil.StartInfo.CreateNoWindow = true;
             xFoil.StartInfo.RedirectStandardInput = true;
-            //xFoil.StartInfo.WorkingDirectory = "../../../../";
 
             xFoil.Start();
 
@@ -90,9 +86,21 @@ namespace AirfoilDesigner
         public static double CalculateLDRatio()
         {
             string name = Convert.ToString(ChromosomeNumber);
-            string[] lines = System.IO.File.ReadAllLines($"{name}.log");
+            string[] lines;
+            if (File.Exists($"{name}.log"))
+            {
+                lines = File.ReadAllLines($"{name}.log");
+            }
+            else
+            {
+                Thread.Sleep(500);
+                lines = File.ReadAllLines($"{name}.log");
+            }
 
             var lDRatioList = new List<double>();
+            Debug.WriteLine($"Log file length: {lines.Length}");
+
+
             for (int i = 12; i < lines.Length; i++)
             {
                 // Get the values in the .log file by going line by line and getting only the numbers.
@@ -102,93 +110,60 @@ namespace AirfoilDesigner
                 lDRatioList.Add(ldratio);
                 Array.Clear(words);
             }
+
+            if (lDRatioList.Count == 0)
+            {
+                // If the list contains no values, return 0
+                return 0;
+            }
+
             // The greater the value of lift to drag ratio, the better the chromosome.
             double average = Queryable.Average(lDRatioList.AsQueryable());
+
             return average;
         }
 
-        /*
-        public class LiftMaximiser : OptimizationFunction1D
+        public static List<double> Normalise(IChromosome chromosome)
         {
-            public LiftMaximiser() : base(new AForge.Range(0, 15)) { }
-            // The range specifies the range of values that the chromosome can have.
+            // Method to normalise the values given by the chromosome into values that can be used by the program.
+            double[] maxRange = { 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1 };
+            double[] minRange = { 0.01, 0.01, 0.0, 0.0, 0.0, 0.01, 0.01, 0.01 };
+            // Cast the chromosome to the appropriate type
+            ShortArrayChromosome shortArrayChromosome = (ShortArrayChromosome)chromosome;
+            ushort[] chromosomeValues = shortArrayChromosome.Value;
 
-            int airfoilCounter = 0;
-            public override double OptimizationFunction(double x) // x is what the chromosome's input value.
+            List<double> normalised = new List<double>();
+
+            // Normalise the chromosomes' values into decimal values ranging between minRange and maxRange.
+            for (int i = 0; i < chromosomeValues.Length; i++)
             {
-                airfoilCounter++;   // Counter will be used to number each airfoil file.
-
-                // Needs code to take each chromosome and generate an airfoil with them, then save it as an airfoil file.
-
-                // Needs code to test airfoil and generate the log file.
-
-                // Function to calculate the average Lift to Drag ratio of the tested aerofoil.
-                string[] lines = System.IO.File.ReadAllLines($"{airfoilCounter}.log");
-
-                var lDRatioList = new List<double>();
-                for (int i = 12; i < 26; i++)
-                {
-                    // Get the values in the .log file by going line by line and getting only the numbers.
-                    string[] words = lines[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                    // Calculate a ratio of lift to drag from the values.
-                    double ldratio = Convert.ToDouble(words[1]) / Convert.ToDouble(words[2]);
-                    lDRatioList.Add(ldratio);
-                    Array.Clear(words);
-                }
-                // The greater the value of lift to drag ratio, the better the chromosome.
-                double average = Queryable.Average(lDRatioList.AsQueryable());
-                return average;
+                double currentValue;
+                currentValue = Convert.ToDouble(chromosomeValues[i]) / 1000;
+                // Limit the value to the range set by minRange and maxRange.
+                if (currentValue > maxRange[i])
+                    currentValue = maxRange[i];
+                if (currentValue < minRange[i])
+                    currentValue = minRange[i];
+                normalised.Add(currentValue);
             }
+            return normalised;
         }
-        */
 
         public class AirfoilFitness : IFitnessFunction
         {
             public double Evaluate(IChromosome chromosome)
             {
-                double[] maxRange = { 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1 };
-                double[] minRange = { 0.01, 0.01, 0.0, 0.0, 0.0, 0.01, 0.01, 0.01 };
-                // Cast the chromosome to the appropriate type
-                ShortArrayChromosome shortArrayChromosome = (ShortArrayChromosome)chromosome;
-                ushort[] chromosomeValues = shortArrayChromosome.Value;
-
-
-                List<double> normalised = new List<double>();
-
-
-
-                // Normalise the chromosomes' values into decimal values ranging between 0 - 1.
-                /*
-                for (int i = 0; i < chromosomeValues.Length; i++)
-                {
-                    if (chromosomeValues[i] == 0)
-                        chromosomeValues[i] = 1;
-                    
-                        normalised.Add( Convert.ToDouble($"0.0{Convert.ToString(chromosomeValues[i])}"));
-                }
-                */
-
-                // Normalise the chromosomes' values into decimal values ranging between minRange and 0.1.
-                for (int i = 0; i < chromosomeValues.Length; i++)
-                {
-                    double currentValue;
-                    currentValue = Convert.ToDouble(chromosomeValues[i]) / 1000;
-                    if (currentValue < minRange[i])
-                        currentValue = minRange[i];
-                    normalised.Add(currentValue);
-                }
+                List<double> normalised = Normalise(chromosome);
 
                 foreach (double item in normalised)
-                {
                     Program.form1.txtNormVals.Text += item + Environment.NewLine;
-                }
+                
                 GA.ChromosomeNumber++;
                 // Pass in the normalised values as parameters for generating an airfoil.
                 AirfoilGenerator.GenAirfoil(normalised.ToArray(), Convert.ToString(GA.ChromosomeNumber));
                 testAirfoil();
                 // Calculate the fitness score and return it.
                 return CalculateLDRatio();
-                //return 1;
             }
         }
     }

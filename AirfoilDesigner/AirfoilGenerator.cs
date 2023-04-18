@@ -11,11 +11,6 @@ namespace AirfoilDesigner
     {
         public static void GenAirfoil(double[] genParams, string name)
         {
-            foreach (var item in genParams)
-            {
-                System.Diagnostics.Debug.WriteLine(item.ToString());
-            }
-
             List<double> upperX = new List<double>() { 0, 0, 0.25, 0.5, 0.75, 1 };
             List<double> lowerX = new List<double>() { 0, 0, 0.25, 0.5, 0.75, 1 };
             List<double> upperY = new List<double>() { 0, 0, 0, 0, 0, 0 };
@@ -41,25 +36,14 @@ namespace AirfoilDesigner
             int interpolationPoints = 50;
             Bezier BezierCurve = new Bezier(6);
 
-            // Log upperY and lowerY to console to check if they have the correct values.
-            foreach (var item in upperY)
-            {
-                //System.Diagnostics.Debug.WriteLine(item);
-            }
-            foreach (var item in lowerY)
-            {
-                //System.Diagnostics.Debug.WriteLine(item);
-            }
-
-
-
             List<double> bezierUpperX = BezierCurve.Interpolate(upperX.ToList(), interpolationPoints);
             List<double> bezierUpperY = BezierCurve.Interpolate(upperY.ToList(), interpolationPoints);
             List<double> bezierLowerX = BezierCurve.Interpolate(lowerX.ToList(), interpolationPoints);
             List<double> bezierLowerY = BezierCurve.Interpolate(lowerY.ToList(), interpolationPoints);
 
             // Create a new numbered .dat file and save the coordinates from the bezier curves into the file.
-            StreamWriter airfoilCoordsFile = new StreamWriter(name + ".dat");
+            StreamWriter airfoilCoordsFile = new StreamWriter($"{name}.dat");
+            
             airfoilCoordsFile.WriteLine(name);
             for (int i = interpolationPoints; i > 0; i--)
             {

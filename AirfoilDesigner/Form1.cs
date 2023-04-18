@@ -122,7 +122,12 @@ namespace AirfoilDesigner
 
         private void frmMainWindow_Load(object sender, EventArgs e)
         {
+            txtCritExponent.Text = "9";
             txtReynolds.Text = "40000";
+            txtAlphaStart.Text = "0.0";
+            txtAlphaEnd.Text = "15.0";
+            txtAlphaIncrement.Text = "1.0";
+
             
             txtPopSize.Text = "10";
             txtArrayLen.Text = "50";
@@ -142,6 +147,27 @@ namespace AirfoilDesigner
         {
             txtNormVals.Clear();
             GA.Run1Epoch();
+        }
+
+        private void btnXFoilParamsApply_Click(object sender, EventArgs e)
+        {
+            ValidateInputs(txtAlphaStart);
+            ValidateInputs(txtAlphaEnd);
+            ValidateInputs(txtAlphaIncrement);
+        }
+
+        public static void ValidateInputs(Control control)
+        {
+            string prevText = control.Text;
+            // If the value entered is an integer, concatenate a decimal on the end.
+            if (int.TryParse(control.Text, out int intValue))
+                control.Text = $"{intValue}.0";
+            // If the value is a real number, allow it.
+            else if (double.TryParse(control.Text, out double doubleValue))
+                control.Text = $"{doubleValue}";
+            // If the value is not an integer or real number, i.e. non-numeric, revert it back to the previous value.
+            else
+                control.Text = prevText;
         }
     }
 }

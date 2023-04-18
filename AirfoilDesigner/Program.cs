@@ -17,9 +17,6 @@ namespace AirfoilDesigner
         [STAThread]
         static void Main()
         {
-            //ApplicationConfiguration.Initialize();
-            //Application.Run(new frmMainWindow());
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             form1 = new frmMainWindow();

@@ -8,6 +8,8 @@ public class Bezier
     private List<double> tList = new List<double>();
     private List<double> tSquaredList = new List<double>();
 
+    // Constructor for the Bezier class.
+    // The degree variable is the degree of the curve. 
     public Bezier(int degree)
     {
         this.bezierDegree = degree;
@@ -15,69 +17,66 @@ public class Bezier
         // initialise the lists' values to 0.
         for (int i = 0; i < bezierDegree; i++)
         {
-            binomialCoeffs.Add(0);
-            tList.Add(0);
-            tSquaredList.Add(0);
+            binomialCoeffs.Add(0);  // Will store coefficients.
+            tList.Add(0);   // Will store values of t.
+            tSquaredList.Add(0);    // Will store values of t^2.
         }
         binomialCoeffs[0] = 1;
 
-
+        // For each degree of the bezier curve...
         for (int i = 1; i <= bezierDegree; i++)
         {
-            int temp = binomialCoeffs[0];
+            int initialValue = binomialCoeffs[0];
             for (int j = 1; j < i; j++)
             {
-                int temp2 = binomialCoeffs[j];
-                binomialCoeffs[j] = temp + binomialCoeffs[j];
-                temp = temp2;
+                // Calculate each binomial coefficient for each element in the list.
+                // Then update the list with the correct value.
+                int prevValue = binomialCoeffs[j];
+                binomialCoeffs[j] = initialValue + binomialCoeffs[j];
+                initialValue = prevValue;
             }
         }
+        // The 'binomialCoeffs' list contains binomial coefficients for the curve to the given degree.
+        // THe coefficients will be used in the 'Interpolate' method
     }
 
-    public List<double> Interpolate(List<double> coefs, int n)
+    // The 'Interpolate' method will calculate the weighted sum of control points.
+    // The 'controlPoints' list is a list of control points for the Bezier curve.
+    // The 'interpolationPoints' variable is the number of points to be interpolated.
+    public List<double> Interpolate(List<double> controlPoints, int interpolationPoints)
     {
-        List<double> output = new List<double>();
-        for (int i = 0; i <= n; i++)
-        {
-            output.Add(0);
-        }
-        double step = 1.0 / (double)n;
+        // Store the interpolated points in the 'outputPoints' list.
+        List<double> outputPoints = new List<double>();
+
+        for (int i = 0; i <= interpolationPoints; i++)
+            outputPoints.Add(0);
+
+        double stepSize = 1 / (double)interpolationPoints;    // Calculate step size.
         double t = 0;
-        output[0] = coefs[0];
-        for (int i = 1; i <= n; i++)
+        outputPoints[0] = controlPoints[0];
+        
+        for (int i = 1; i <= interpolationPoints; i++)
         {
-            t += step;
-            double tt = 1.0 - t;
-            double ttemp = 1.0;
-            double tttemp = 1.0;
+            // Increment 't' by the step size and calculate its complement, 'tComplement'.
+            t += stepSize;
+            double tComplement = 1 - t;
+            double tTemp = 1;
+            double tSquaredTemp = 1;
             for (int j = 0; j < bezierDegree; j++)
             {
-                tList[j] = ttemp;
-                tSquaredList[bezierDegree - j - 1] = tttemp;
-                ttemp *= t;
-                tttemp *= tt;
+                // Calculate values that will be added to the lists by using 't' and 'tComplement'.
+                tList[j] = tTemp;
+                tSquaredList[bezierDegree - j - 1] = tSquaredTemp;
+                tTemp *= t;
+                tSquaredTemp *= tComplement;
             }
-            output[i] = 0;
+            outputPoints[i] = 0;
             for (int j = 0; j < bezierDegree; j++)
             {
-                output[i] += coefs[j] * tSquaredList[j] * tList[j] * binomialCoeffs[j];
+                // Iterate each control point and multiply them by the values from each list.
+                outputPoints[i] += controlPoints[j] * tSquaredList[j] * tList[j] * binomialCoeffs[j];
             }
         }
-        return output;
+        return outputPoints;
     }
 }
-
-/*
-public class Program
-{
-    public static void Main()
-    {
-        Bezier MyBezier = new Bezier(5);
-        List<double> bezierout = MyBezier.Interpolate(new List<int>() { 0, 3, 2, 1, 0 }, 100);
-        foreach (double d in bezierout)
-        {
-            Console.WriteLine(d);
-        }
-    }
-}
-*/
