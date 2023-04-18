@@ -33,6 +33,8 @@ namespace AirfoilDesigner
             GenerationNumber = 0;   // Reset the generation counter to 0.
         }
 
+
+
         public static void Run1Epoch()
         {
             // Run one epoch.
@@ -43,6 +45,9 @@ namespace AirfoilDesigner
             ShortArrayChromosome bestAgent = Population.BestChromosome as ShortArrayChromosome;
             double bestValue = FitnessFunction.Translate(bestAgent);
 
+            // Evaluate the fitness of the best agent
+            double bestFitness = FitnessFunction.EvaluateShortArrayChromosome(bestAgent);
+
             // Display the values on the labels in the window.
             Program.form1.lblGenNum.Text = $"Generation Number: {GenerationNumber}";
         }
@@ -50,34 +55,67 @@ namespace AirfoilDesigner
 
     public class LiftMaximiser : OptimizationFunction1D
     {
-        public LiftMaximiser() : base( new AForge.Range( 0, 150000 ) ) { }
-        // The range specifies the range of values that the chromosome can have.
+        public LiftMaximiser() : base(new AForge.Range(0, 150000)) { }
 
         int airfoilCounter = 0;
-        public override double OptimizationFunction(double x) // x is what the chromosome's input value.
+
+        public double EvaluateShortArrayChromosome(ShortArrayChromosome chromosome)
         {
-            airfoilCounter++;   // Counter will be used to number each airfoil file.
-            
-            // Needs code to take each chromosome and generate an airfoil with them, then save it as an airfoil file.
+            // Cast chromosome to ShortArrayChromosome
+            ushort[] shortArray = (chromosome as ShortArrayChromosome).Value;
+            double[] parameters = Array.ConvertAll(shortArray, x => (double)x);
 
-            // Needs code to test airfoil and generate the log file.
+            // Calculate fitness based on the optimization function
+            double fitness = OptimizationFunction(parameters);
 
-            // Function to calculate the average Lift to Drag ratio of the tested aerofoil.
+            return fitness;
+        }
+
+        public override double OptimizationFunction(double[] x)
+        {
+            airfoilCounter++;
+
+
+            // Generate airfoil based on chromosome parameters
+            ShortArrayChromosome chromosome = new ShortArrayChromosome(new short[] { (short)x });
+            double[] parameters = chromosome.Value;
+
+            // ... your code to generate the airfoil based on the parameters ...
+
+            // Test airfoil and generate log file
+            // ... your code to test the airfoil and generate the log file ...
+
+            // Calculate average lift to drag ratio
             string[] lines = System.IO.File.ReadAllLines($"{airfoilCounter}.log");
-
             var lDRatioList = new List<double>();
             for (int i = 12; i < 26; i++)
             {
-                // Get the values in the .log file by going line by line and getting only the numbers.
                 string[] words = lines[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                // Calculate a ratio of lift to drag from the values.
                 double ldratio = Convert.ToDouble(words[1]) / Convert.ToDouble(words[2]);
                 lDRatioList.Add(ldratio);
                 Array.Clear(words);
             }
-            // The greater the value of lift to drag ratio, the better the chromosome.
             double average = Queryable.Average(lDRatioList.AsQueryable());
             return average;
+        }
+        public override double Evaluate(IChromosome chromosome)
+        {
+            // Cast chromosome to ShortArrayChromosome
+            ShortArrayChromosome shortArrayChromosome = chromosome as ShortArrayChromosome;
+            short[] genes = chromosome.Value;
+
+            // Calculate fitness based on the optimization function
+            double fitness = OptimizationFunction(shortArrayChromosome.Value[0]);
+
+            return fitness;
+        }
+
+        public override double Evaluate(IChromosome chromosome)
+        {
+            ShortArrayChromosome shortChromosome = (ShortArrayChromosome)chromosome;
+            short[] genes = shortChromosome.Value;
+
+            // Use the genes to calculate fitness...
         }
     }
 }
