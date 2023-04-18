@@ -131,8 +131,15 @@ namespace AirfoilDesigner
 
         private void btnGenPop_Click(object sender, EventArgs e)
         {
+            txtNormVals.Clear();
             GA.GenPop();
             btnRunEpoch.Enabled = true;
+        }
+
+        private void btnRunEpoch_Click(object sender, EventArgs e)
+        {
+            txtNormVals.Clear();
+            GA.Run1Epoch();
         }
     }
 }

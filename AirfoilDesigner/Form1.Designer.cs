@@ -41,6 +41,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.txtNormVals = new System.Windows.Forms.TextBox();
             this.grpChromosome = new System.Windows.Forms.GroupBox();
             this.txtMaxVal = new System.Windows.Forms.TextBox();
             this.lblMaxVal = new System.Windows.Forms.Label();
@@ -182,6 +183,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.txtNormVals);
             this.tabPage2.Controls.Add(this.grpChromosome);
             this.tabPage2.Controls.Add(this.lblGenNum);
             this.tabPage2.Controls.Add(this.grpPop);
@@ -192,6 +194,16 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "GA";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // txtNormVals
+            // 
+            this.txtNormVals.Location = new System.Drawing.Point(374, 6);
+            this.txtNormVals.Multiline = true;
+            this.txtNormVals.Name = "txtNormVals";
+            this.txtNormVals.ReadOnly = true;
+            this.txtNormVals.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtNormVals.Size = new System.Drawing.Size(199, 431);
+            this.txtNormVals.TabIndex = 6;
             // 
             // grpChromosome
             // 
@@ -269,6 +281,7 @@
             this.btnRunEpoch.TabIndex = 4;
             this.btnRunEpoch.Text = "Run One Epoch";
             this.btnRunEpoch.UseVisualStyleBackColor = true;
+            this.btnRunEpoch.Click += new System.EventHandler(this.btnRunEpoch_Click);
             // 
             // lblPopSize
             // 
@@ -343,5 +356,6 @@
         private Label lblArrayLen;
         private TextBox txtMaxVal;
         private Label lblMaxVal;
+        public TextBox txtNormVals;
     }
 }
