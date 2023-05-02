@@ -9,6 +9,7 @@ namespace AirfoilDesigner
 {
     public class AirfoilGenerator
     {
+        // This code makes use of the Bezier code to generate aerofoils.
         public static void GenAirfoil(double[] genParams, string name)
         {
             List<double> upperX = new List<double>() { 0, 0, 0.25, 0.5, 0.75, 1 };

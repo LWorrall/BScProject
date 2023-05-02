@@ -39,35 +39,35 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.txtAlphaIncrement = new System.Windows.Forms.TextBox();
+            this.grpMutator = new System.Windows.Forms.GroupBox();
+            this.btnApplyMutationRate = new System.Windows.Forms.Button();
+            this.lblMutationRate = new System.Windows.Forms.Label();
+            this.txtMutationRate = new System.Windows.Forms.TextBox();
+            this.lblBestFitness = new System.Windows.Forms.Label();
+            this.lblBestAerofoil = new System.Windows.Forms.Label();
+            this.lblGenNum = new System.Windows.Forms.Label();
             this.grpXFoilTest = new System.Windows.Forms.GroupBox();
+            this.btnXFoilParamsApply = new System.Windows.Forms.Button();
             this.txtAlphaStart = new System.Windows.Forms.TextBox();
             this.lblAlphaIncrement = new System.Windows.Forms.Label();
             this.txtAlphaEnd = new System.Windows.Forms.TextBox();
+            this.txtAlphaIncrement = new System.Windows.Forms.TextBox();
             this.lblAlphaEnd = new System.Windows.Forms.Label();
             this.lblAlphaStart = new System.Windows.Forms.Label();
             this.lblReynolds = new System.Windows.Forms.Label();
             this.txtReynolds = new System.Windows.Forms.TextBox();
             this.txtCritExponent = new System.Windows.Forms.TextBox();
             this.lblCritExponent = new System.Windows.Forms.Label();
-            this.txtNormVals = new System.Windows.Forms.TextBox();
-            this.grpChromosome = new System.Windows.Forms.GroupBox();
-            this.txtMaxVal = new System.Windows.Forms.TextBox();
-            this.lblMaxVal = new System.Windows.Forms.Label();
-            this.txtArrayLen = new System.Windows.Forms.TextBox();
-            this.lblArrayLen = new System.Windows.Forms.Label();
-            this.lblGenNum = new System.Windows.Forms.Label();
             this.grpPop = new System.Windows.Forms.GroupBox();
             this.btnRunEpoch = new System.Windows.Forms.Button();
             this.lblPopSize = new System.Windows.Forms.Label();
             this.btnGenPop = new System.Windows.Forms.Button();
             this.txtPopSize = new System.Windows.Forms.TextBox();
-            this.btnXFoilParamsApply = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.grpMutator.SuspendLayout();
             this.grpXFoilTest.SuspendLayout();
-            this.grpChromosome.SuspendLayout();
             this.grpPop.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -119,7 +119,7 @@
             // 
             // btnRunTest
             // 
-            this.btnRunTest.Location = new System.Drawing.Point(120, 92);
+            this.btnRunTest.Location = new System.Drawing.Point(6, 77);
             this.btnRunTest.Name = "btnRunTest";
             this.btnRunTest.Size = new System.Drawing.Size(75, 23);
             this.btnRunTest.TabIndex = 8;
@@ -129,16 +129,16 @@
             // 
             // txtLDRatio
             // 
-            this.txtLDRatio.Location = new System.Drawing.Point(6, 150);
+            this.txtLDRatio.Location = new System.Drawing.Point(6, 135);
             this.txtLDRatio.Multiline = true;
             this.txtLDRatio.Name = "txtLDRatio";
             this.txtLDRatio.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtLDRatio.Size = new System.Drawing.Size(373, 287);
+            this.txtLDRatio.Size = new System.Drawing.Size(279, 287);
             this.txtLDRatio.TabIndex = 9;
             // 
             // btnLDRatio
             // 
-            this.btnLDRatio.Location = new System.Drawing.Point(6, 121);
+            this.btnLDRatio.Location = new System.Drawing.Point(6, 106);
             this.btnLDRatio.Name = "btnLDRatio";
             this.btnLDRatio.Size = new System.Drawing.Size(163, 23);
             this.btnLDRatio.TabIndex = 10;
@@ -176,11 +176,11 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.txtAlphaIncrement);
-            this.tabPage2.Controls.Add(this.grpXFoilTest);
-            this.tabPage2.Controls.Add(this.txtNormVals);
-            this.tabPage2.Controls.Add(this.grpChromosome);
+            this.tabPage2.Controls.Add(this.grpMutator);
+            this.tabPage2.Controls.Add(this.lblBestFitness);
+            this.tabPage2.Controls.Add(this.lblBestAerofoil);
             this.tabPage2.Controls.Add(this.lblGenNum);
+            this.tabPage2.Controls.Add(this.grpXFoilTest);
             this.tabPage2.Controls.Add(this.grpPop);
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
@@ -190,12 +190,70 @@
             this.tabPage2.Text = "GA";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // txtAlphaIncrement
+            // grpMutator
             // 
-            this.txtAlphaIncrement.Location = new System.Drawing.Point(193, 252);
-            this.txtAlphaIncrement.Name = "txtAlphaIncrement";
-            this.txtAlphaIncrement.Size = new System.Drawing.Size(38, 23);
-            this.txtAlphaIncrement.TabIndex = 18;
+            this.grpMutator.Controls.Add(this.btnApplyMutationRate);
+            this.grpMutator.Controls.Add(this.lblMutationRate);
+            this.grpMutator.Controls.Add(this.txtMutationRate);
+            this.grpMutator.Location = new System.Drawing.Point(4, 120);
+            this.grpMutator.Name = "grpMutator";
+            this.grpMutator.Size = new System.Drawing.Size(175, 85);
+            this.grpMutator.TabIndex = 5;
+            this.grpMutator.TabStop = false;
+            this.grpMutator.Text = "Mutator";
+            // 
+            // btnApplyMutationRate
+            // 
+            this.btnApplyMutationRate.Location = new System.Drawing.Point(6, 44);
+            this.btnApplyMutationRate.Name = "btnApplyMutationRate";
+            this.btnApplyMutationRate.Size = new System.Drawing.Size(158, 23);
+            this.btnApplyMutationRate.TabIndex = 4;
+            this.btnApplyMutationRate.Text = "Apply";
+            this.btnApplyMutationRate.UseVisualStyleBackColor = true;
+            this.btnApplyMutationRate.Click += new System.EventHandler(this.btnApplyMutationRate_Click);
+            // 
+            // lblMutationRate
+            // 
+            this.lblMutationRate.AutoSize = true;
+            this.lblMutationRate.Location = new System.Drawing.Point(6, 19);
+            this.lblMutationRate.Name = "lblMutationRate";
+            this.lblMutationRate.Size = new System.Drawing.Size(85, 15);
+            this.lblMutationRate.TabIndex = 1;
+            this.lblMutationRate.Text = "Mutation Rate:";
+            // 
+            // txtMutationRate
+            // 
+            this.txtMutationRate.Location = new System.Drawing.Point(103, 15);
+            this.txtMutationRate.Name = "txtMutationRate";
+            this.txtMutationRate.Size = new System.Drawing.Size(61, 23);
+            this.txtMutationRate.TabIndex = 2;
+            // 
+            // lblBestFitness
+            // 
+            this.lblBestFitness.AutoSize = true;
+            this.lblBestFitness.Location = new System.Drawing.Point(397, 65);
+            this.lblBestFitness.Name = "lblBestFitness";
+            this.lblBestFitness.Size = new System.Drawing.Size(71, 15);
+            this.lblBestFitness.TabIndex = 21;
+            this.lblBestFitness.Text = "Best Fitness:";
+            // 
+            // lblBestAerofoil
+            // 
+            this.lblBestAerofoil.AutoSize = true;
+            this.lblBestAerofoil.Location = new System.Drawing.Point(397, 50);
+            this.lblBestAerofoil.Name = "lblBestAerofoil";
+            this.lblBestAerofoil.Size = new System.Drawing.Size(77, 15);
+            this.lblBestAerofoil.TabIndex = 20;
+            this.lblBestAerofoil.Text = "Best Aerofoil:";
+            // 
+            // lblGenNum
+            // 
+            this.lblGenNum.AutoSize = true;
+            this.lblGenNum.Location = new System.Drawing.Point(397, 20);
+            this.lblGenNum.Name = "lblGenNum";
+            this.lblGenNum.Size = new System.Drawing.Size(115, 15);
+            this.lblGenNum.TabIndex = 19;
+            this.lblGenNum.Text = "Generation Number:";
             // 
             // grpXFoilTest
             // 
@@ -203,18 +261,29 @@
             this.grpXFoilTest.Controls.Add(this.txtAlphaStart);
             this.grpXFoilTest.Controls.Add(this.lblAlphaIncrement);
             this.grpXFoilTest.Controls.Add(this.txtAlphaEnd);
+            this.grpXFoilTest.Controls.Add(this.txtAlphaIncrement);
             this.grpXFoilTest.Controls.Add(this.lblAlphaEnd);
             this.grpXFoilTest.Controls.Add(this.lblAlphaStart);
             this.grpXFoilTest.Controls.Add(this.lblReynolds);
             this.grpXFoilTest.Controls.Add(this.txtReynolds);
             this.grpXFoilTest.Controls.Add(this.txtCritExponent);
             this.grpXFoilTest.Controls.Add(this.lblCritExponent);
-            this.grpXFoilTest.Location = new System.Drawing.Point(6, 120);
+            this.grpXFoilTest.Location = new System.Drawing.Point(6, 211);
             this.grpXFoilTest.Name = "grpXFoilTest";
             this.grpXFoilTest.Size = new System.Drawing.Size(254, 192);
             this.grpXFoilTest.TabIndex = 7;
             this.grpXFoilTest.TabStop = false;
             this.grpXFoilTest.Text = "XFOIL Test Parameters";
+            // 
+            // btnXFoilParamsApply
+            // 
+            this.btnXFoilParamsApply.Location = new System.Drawing.Point(150, 161);
+            this.btnXFoilParamsApply.Name = "btnXFoilParamsApply";
+            this.btnXFoilParamsApply.Size = new System.Drawing.Size(75, 23);
+            this.btnXFoilParamsApply.TabIndex = 20;
+            this.btnXFoilParamsApply.Text = "Apply";
+            this.btnXFoilParamsApply.UseVisualStyleBackColor = true;
+            this.btnXFoilParamsApply.Click += new System.EventHandler(this.btnXFoilParamsApply_Click);
             // 
             // txtAlphaStart
             // 
@@ -238,6 +307,13 @@
             this.txtAlphaEnd.Name = "txtAlphaEnd";
             this.txtAlphaEnd.Size = new System.Drawing.Size(38, 23);
             this.txtAlphaEnd.TabIndex = 19;
+            // 
+            // txtAlphaIncrement
+            // 
+            this.txtAlphaIncrement.Location = new System.Drawing.Point(187, 132);
+            this.txtAlphaIncrement.Name = "txtAlphaIncrement";
+            this.txtAlphaIncrement.Size = new System.Drawing.Size(38, 23);
+            this.txtAlphaIncrement.TabIndex = 18;
             // 
             // lblAlphaEnd
             // 
@@ -289,77 +365,13 @@
             this.lblCritExponent.TabIndex = 0;
             this.lblCritExponent.Text = "Critical Amplification Exponent:";
             // 
-            // txtNormVals
-            // 
-            this.txtNormVals.Location = new System.Drawing.Point(374, 6);
-            this.txtNormVals.Multiline = true;
-            this.txtNormVals.Name = "txtNormVals";
-            this.txtNormVals.ReadOnly = true;
-            this.txtNormVals.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtNormVals.Size = new System.Drawing.Size(199, 431);
-            this.txtNormVals.TabIndex = 6;
-            // 
-            // grpChromosome
-            // 
-            this.grpChromosome.Controls.Add(this.txtMaxVal);
-            this.grpChromosome.Controls.Add(this.lblMaxVal);
-            this.grpChromosome.Controls.Add(this.txtArrayLen);
-            this.grpChromosome.Controls.Add(this.lblArrayLen);
-            this.grpChromosome.Location = new System.Drawing.Point(6, 6);
-            this.grpChromosome.Name = "grpChromosome";
-            this.grpChromosome.Size = new System.Drawing.Size(181, 77);
-            this.grpChromosome.TabIndex = 5;
-            this.grpChromosome.TabStop = false;
-            this.grpChromosome.Text = "Chromosome";
-            // 
-            // txtMaxVal
-            // 
-            this.txtMaxVal.Location = new System.Drawing.Point(108, 45);
-            this.txtMaxVal.Name = "txtMaxVal";
-            this.txtMaxVal.Size = new System.Drawing.Size(61, 23);
-            this.txtMaxVal.TabIndex = 7;
-            // 
-            // lblMaxVal
-            // 
-            this.lblMaxVal.AutoSize = true;
-            this.lblMaxVal.Location = new System.Drawing.Point(6, 48);
-            this.lblMaxVal.Name = "lblMaxVal";
-            this.lblMaxVal.Size = new System.Drawing.Size(96, 15);
-            this.lblMaxVal.TabIndex = 6;
-            this.lblMaxVal.Text = "Maximum Value:";
-            // 
-            // txtArrayLen
-            // 
-            this.txtArrayLen.Location = new System.Drawing.Point(108, 16);
-            this.txtArrayLen.Name = "txtArrayLen";
-            this.txtArrayLen.Size = new System.Drawing.Size(61, 23);
-            this.txtArrayLen.TabIndex = 5;
-            // 
-            // lblArrayLen
-            // 
-            this.lblArrayLen.AutoSize = true;
-            this.lblArrayLen.Location = new System.Drawing.Point(6, 19);
-            this.lblArrayLen.Name = "lblArrayLen";
-            this.lblArrayLen.Size = new System.Drawing.Size(78, 15);
-            this.lblArrayLen.TabIndex = 6;
-            this.lblArrayLen.Text = "Array Length:";
-            // 
-            // lblGenNum
-            // 
-            this.lblGenNum.AutoSize = true;
-            this.lblGenNum.Location = new System.Drawing.Point(519, 21);
-            this.lblGenNum.Name = "lblGenNum";
-            this.lblGenNum.Size = new System.Drawing.Size(115, 15);
-            this.lblGenNum.TabIndex = 4;
-            this.lblGenNum.Text = "Generation Number:";
-            // 
             // grpPop
             // 
             this.grpPop.Controls.Add(this.btnRunEpoch);
             this.grpPop.Controls.Add(this.lblPopSize);
             this.grpPop.Controls.Add(this.btnGenPop);
             this.grpPop.Controls.Add(this.txtPopSize);
-            this.grpPop.Location = new System.Drawing.Point(193, 6);
+            this.grpPop.Location = new System.Drawing.Point(6, 6);
             this.grpPop.Name = "grpPop";
             this.grpPop.Size = new System.Drawing.Size(175, 108);
             this.grpPop.TabIndex = 3;
@@ -403,21 +415,11 @@
             this.txtPopSize.Size = new System.Drawing.Size(61, 23);
             this.txtPopSize.TabIndex = 2;
             // 
-            // btnXFoilParamsApply
-            // 
-            this.btnXFoilParamsApply.Location = new System.Drawing.Point(150, 161);
-            this.btnXFoilParamsApply.Name = "btnXFoilParamsApply";
-            this.btnXFoilParamsApply.Size = new System.Drawing.Size(75, 23);
-            this.btnXFoilParamsApply.TabIndex = 20;
-            this.btnXFoilParamsApply.Text = "Apply";
-            this.btnXFoilParamsApply.UseVisualStyleBackColor = true;
-            this.btnXFoilParamsApply.Click += new System.EventHandler(this.btnXFoilParamsApply_Click);
-            // 
             // frmMainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(670, 482);
+            this.ClientSize = new System.Drawing.Size(671, 483);
             this.Controls.Add(this.tabControl1);
             this.Name = "frmMainWindow";
             this.Text = "Aerofoil Designer";
@@ -427,10 +429,10 @@
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.grpMutator.ResumeLayout(false);
+            this.grpMutator.PerformLayout();
             this.grpXFoilTest.ResumeLayout(false);
             this.grpXFoilTest.PerformLayout();
-            this.grpChromosome.ResumeLayout(false);
-            this.grpChromosome.PerformLayout();
             this.grpPop.ResumeLayout(false);
             this.grpPop.PerformLayout();
             this.ResumeLayout(false);
@@ -450,17 +452,9 @@
         private TabPage tabPage1;
         private TabPage tabPage2;
         private Button btnGenPop;
-        public Label lblGenNum;
         private GroupBox grpPop;
         private Button btnRunEpoch;
         private Label lblPopSize;
-        private TextBox txtPopSize;
-        private GroupBox grpChromosome;
-        private TextBox txtArrayLen;
-        private Label lblArrayLen;
-        private TextBox txtMaxVal;
-        private Label lblMaxVal;
-        public TextBox txtNormVals;
         private GroupBox grpXFoilTest;
         private Label lblCritExponent;
         public TextBox txtReynolds;
@@ -473,5 +467,13 @@
         public TextBox txtAlphaStart;
         public TextBox txtAlphaEnd;
         private Button btnXFoilParamsApply;
+        public Label lblGenNum;
+        public TextBox txtPopSize;
+        public Label lblBestAerofoil;
+        public Label lblBestFitness;
+        private GroupBox grpMutator;
+        private Button btnApplyMutationRate;
+        private Label lblMutationRate;
+        public TextBox txtMutationRate;
     }
 }

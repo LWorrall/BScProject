@@ -1,4 +1,3 @@
-using AirfoilDesigner.Properties;
 using System.Diagnostics;
 
 namespace AirfoilDesigner
@@ -127,47 +126,97 @@ namespace AirfoilDesigner
             txtAlphaStart.Text = "0.0";
             txtAlphaEnd.Text = "15.0";
             txtAlphaIncrement.Text = "1.0";
-
-            
+            txtMutationRate.Text = "0.1";
             txtPopSize.Text = "10";
-            txtArrayLen.Text = "50";
-            GA.UpdateArrayLen(Convert.ToInt32(txtArrayLen.Text));
-            txtMaxVal.Text = "150000";
-            GA.UpdateArrayMaxVal(Convert.ToInt32(txtMaxVal.Text));
         }
 
         private void btnGenPop_Click(object sender, EventArgs e)
         {
-            txtNormVals.Clear();
-            GA.GenPop();
-            btnRunEpoch.Enabled = true;
+            if (int.TryParse(txtPopSize.Text, out int intValue))
+            {
+                GA.GenPop();
+                btnRunEpoch.Enabled = true;
+            }
+            else
+                txtPopSize.Text = "10";
         }
 
         private void btnRunEpoch_Click(object sender, EventArgs e)
         {
-            txtNormVals.Clear();
+            //txtNormVals.Clear();
             GA.Run1Epoch();
         }
 
         private void btnXFoilParamsApply_Click(object sender, EventArgs e)
         {
-            ValidateInputs(txtAlphaStart);
-            ValidateInputs(txtAlphaEnd);
-            ValidateInputs(txtAlphaIncrement);
+            ValidateNumber(txtCritExponent);
+            ValidateNumber(txtReynolds);
+            ValidateXfoilInputs(txtAlphaStart);
+            ValidateXfoilInputs(txtAlphaEnd);
+            ValidateXfoilInputs(txtAlphaIncrement);
         }
 
-        public static void ValidateInputs(Control control)
+        public static void ValidateXfoilInputs(Control control)
         {
-            string prevText = control.Text;
+
             // If the value entered is an integer, concatenate a decimal on the end.
             if (int.TryParse(control.Text, out int intValue))
                 control.Text = $"{intValue}.0";
             // If the value is a real number, allow it.
-            else if (double.TryParse(control.Text, out double doubleValue))
-                control.Text = $"{doubleValue}";
-            // If the value is not an integer or real number, i.e. non-numeric, revert it back to the previous value.
+            else if (control.Text.Contains("."))
+            {
+                control.Text = control.Text;
+            }
+            // If the value is not an integer or real number, i.e. non-numeric, revert it back to the default value.
             else
-                control.Text = prevText;
+            {
+                MessageBox.Show("Error: Alpha test values must be real number values.", "Error");
+                if (control.Name == "txtAlphaStart")
+                    control.Text = "0.0";
+                if (control.Name == "txtAlphaEnd")
+                    control.Text = "15.0";
+                if (control.Name == "txtAlphaIncrement")
+                    control.Text = "1.0";
+            }
+        }
+
+        public static void ValidateNumber(Control control)
+        {
+            // If the value entered is an integer, concatenate a decimal on the end.
+            if (int.TryParse(control.Text, out int intValue))
+            {
+                control.Text = control.Text;
+            }
+
+            else
+            {
+                MessageBox.Show("Error: Entered value must be an integer.", "Error");
+                if (control.Name == "txtCritExponent")
+                    control.Text = "9";
+                if (control.Name == "txtReynolds")
+                    control.Text = "40000";
+            }
+        }
+
+        private void btnApplyMutationRate_Click(object sender, EventArgs e)
+        {
+            // Validation to make sure the mutation rate entered by the user is a number between 0.1 to 1.
+            if (double.TryParse(txtMutationRate.Text, out double doubleValue))
+            {
+                txtMutationRate.Text = $"{doubleValue}";
+                if (doubleValue >= 0.1 && doubleValue <= 1)
+                    txtMutationRate.Text = $"{doubleValue}";
+                else
+                {
+                    txtMutationRate.Text = "0.1";
+                    MessageBox.Show("Error: Mutataion rate must be a number between 0.1 to 1.", "Error");
+                }
+            }
+            else
+            {
+                txtMutationRate.Text = "0.1";
+                MessageBox.Show("Error: Mutataion rate must be a number between 0.1 to 1.", "Error");
+            }
         }
     }
 }

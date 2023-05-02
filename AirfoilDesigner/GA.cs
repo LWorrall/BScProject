@@ -19,6 +19,8 @@ namespace AirfoilDesigner
         public static EliteSelection SelectionMethod = new EliteSelection();
 
         public static int GenerationNumber { get; set; }
+        public static string BestAerofoil { get; set; }
+        public static double BestFitness { get; set; }
         public static int ChromosomeNumber { get; set; }
         public static Population Population { get; set; }
 
@@ -26,12 +28,14 @@ namespace AirfoilDesigner
         {
             // Create a new genetic population.
             Population = new Population(
-                10, // This value is the population size.
+                Convert.ToInt32(Program.form1.txtPopSize.Text), // This value is the population size.
                 InitialAgent,
                 FitnessFunction,
-                SelectionMethod);
+                SelectionMethod);;
 
             GenerationNumber = 0;   // Reset the generation counter to 0.
+            BestAerofoil = "";      //Clear best aerofoil.
+            BestFitness = 0;        // Reset the best fitness to 0.
             ChromosomeNumber = 0;   // Reset the chromosome counter to 0.
         }
 
@@ -119,7 +123,13 @@ namespace AirfoilDesigner
 
             // The greater the value of lift to drag ratio, the better the chromosome.
             double average = Queryable.Average(lDRatioList.AsQueryable());
-
+            if (average > BestFitness)
+            {
+                BestAerofoil = name;
+                Program.form1.lblBestAerofoil.Text = $"Best Aerofoil: {BestAerofoil}";
+                BestFitness = average;
+                Program.form1.lblBestFitness.Text = $"Best Fitness: {Convert.ToString(BestFitness)}";
+            }
             return average;
         }
 
@@ -156,7 +166,7 @@ namespace AirfoilDesigner
                 List<double> normalised = Normalise(chromosome);
 
                 foreach (double item in normalised)
-                    Program.form1.txtNormVals.Text += item + Environment.NewLine;
+                    //Program.form1.txtNormVals.Text += item + Environment.NewLine;
                 
                 GA.ChromosomeNumber++;
                 // Pass in the normalised values as parameters for generating an airfoil.

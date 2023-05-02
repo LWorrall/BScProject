@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AirfoilDesigner.Properties {
+namespace AerooilDesigner.Properties {
     using System;
     
     
