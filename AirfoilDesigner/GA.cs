@@ -16,6 +16,8 @@ namespace AirfoilDesigner
         public static ShortArrayChromosome InitialAgent = new ShortArrayChromosome(8, 100);
 
         public static AirfoilFitness FitnessFunction = new AirfoilFitness();
+        
+        // Use elite selection; a limited number of the best agents are passed into the next generation.
         public static EliteSelection SelectionMethod = new EliteSelection();
 
         public static int GenerationNumber { get; set; }
@@ -24,23 +26,34 @@ namespace AirfoilDesigner
         public static int ChromosomeNumber { get; set; }
         public static Population Population { get; set; }
 
+        public double CrossoverRate { get; set; }
+        public double MutationRate { get; set; }
+
+
         public static void GenPop()
         {
+            Population.MutationRate = Convert.ToDouble(Program.form1.txtMutationRate.Text);
+            Population.CrossoverRate = Convert.ToDouble(Program.form1.txtCrossoverRate.Text);
+
             // Create a new genetic population.
             Population = new Population(
                 Convert.ToInt32(Program.form1.txtPopSize.Text), // This value is the population size.
                 InitialAgent,
                 FitnessFunction,
-                SelectionMethod);;
+                SelectionMethod);
 
             GenerationNumber = 0;   // Reset the generation counter to 0.
             BestAerofoil = "";      //Clear best aerofoil.
             BestFitness = 0;        // Reset the best fitness to 0.
             ChromosomeNumber = 0;   // Reset the chromosome counter to 0.
+
         }
 
         public static void Run1Epoch()
         {
+            Population.MutationRate = Convert.ToDouble(Program.form1.txtMutationRate.Text);
+            Population.CrossoverRate = Convert.ToDouble(Program.form1.txtCrossoverRate.Text);
+            
             // Run one epoch.
 
             GenerationNumber++;
@@ -48,7 +61,7 @@ namespace AirfoilDesigner
             // The 'RunEpoch' method performs crossover, mutation and selection.
             // THe mutation rate is specified by Population.MutationRate, which is 0.1 by default.
             Debug.WriteLine(Population.MutationRate);
-            Population.RunEpoch();
+            Population.RunEpoch();  // This function runs crossover, mutation, and selection.
 
             ShortArrayChromosome bestAgent = Population.BestChromosome as ShortArrayChromosome;
             double bestValue = FitnessFunction.Evaluate(bestAgent);
@@ -126,7 +139,7 @@ namespace AirfoilDesigner
             if (average > BestFitness)
             {
                 BestAerofoil = name;
-                Program.form1.lblBestAerofoil.Text = $"Best Aerofoil: {BestAerofoil}";
+                Program.form1.lblBestAerofoil.Text = $"{BestAerofoil}";
                 BestFitness = average;
                 Program.form1.lblBestFitness.Text = $"Best Fitness: {Convert.ToString(BestFitness)}";
             }
@@ -164,9 +177,6 @@ namespace AirfoilDesigner
             public double Evaluate(IChromosome chromosome)
             {
                 List<double> normalised = Normalise(chromosome);
-
-                foreach (double item in normalised)
-                    //Program.form1.txtNormVals.Text += item + Environment.NewLine;
                 
                 GA.ChromosomeNumber++;
                 // Pass in the normalised values as parameters for generating an airfoil.

@@ -127,6 +127,7 @@ namespace AirfoilDesigner
             txtAlphaEnd.Text = "15.0";
             txtAlphaIncrement.Text = "1.0";
             txtMutationRate.Text = "0.1";
+            txtCrossoverRate.Text = "0.75";
             txtPopSize.Text = "10";
         }
 
@@ -134,6 +135,15 @@ namespace AirfoilDesigner
         {
             if (int.TryParse(txtPopSize.Text, out int intValue))
             {
+                Task delete = Task.Run(() => {
+                    // Delete .dat and .log files of previous aerofoils.
+                    foreach (string file in Directory.GetFiles(".", "*.dat"))
+                        File.Delete(file);
+                    foreach (string file in Directory.GetFiles(".", "*.log"))
+                        File.Delete(file);
+                });
+                delete.Wait(-1);
+
                 GA.GenPop();
                 btnRunEpoch.Enabled = true;
             }
@@ -164,9 +174,7 @@ namespace AirfoilDesigner
                 control.Text = $"{intValue}.0";
             // If the value is a real number, allow it.
             else if (control.Text.Contains("."))
-            {
                 control.Text = control.Text;
-            }
             // If the value is not an integer or real number, i.e. non-numeric, revert it back to the default value.
             else
             {
@@ -184,10 +192,7 @@ namespace AirfoilDesigner
         {
             // If the value entered is an integer, concatenate a decimal on the end.
             if (int.TryParse(control.Text, out int intValue))
-            {
                 control.Text = control.Text;
-            }
-
             else
             {
                 MessageBox.Show("Error: Entered value must be an integer.", "Error");
@@ -198,25 +203,46 @@ namespace AirfoilDesigner
             }
         }
 
-        private void btnApplyMutationRate_Click(object sender, EventArgs e)
+        public static void ValidateAlgorithmRates(Control control)
         {
-            // Validation to make sure the mutation rate entered by the user is a number between 0.1 to 1.
-            if (double.TryParse(txtMutationRate.Text, out double doubleValue))
+            if (double.TryParse(control.Text, out double doubleValue))
             {
-                txtMutationRate.Text = $"{doubleValue}";
+                control.Text = $"{doubleValue}";
                 if (doubleValue >= 0.1 && doubleValue <= 1)
-                    txtMutationRate.Text = $"{doubleValue}";
+                    control.Text = $"{doubleValue}";
                 else
                 {
-                    txtMutationRate.Text = "0.1";
-                    MessageBox.Show("Error: Mutataion rate must be a number between 0.1 to 1.", "Error");
+                    if (control.Name == "txtMutationRate")
+                        control.Text = "0.1";
+                    if (control.Name == "txtCrossoverRate")
+                        control.Text = "0.75";
                 }
             }
+            // If the value is not an integer or real number, i.e. non-numeric, revert it back to the default value.
             else
             {
-                txtMutationRate.Text = "0.1";
-                MessageBox.Show("Error: Mutataion rate must be a number between 0.1 to 1.", "Error");
+                if (control.Name == "txtMutationRate")
+                    control.Text = "0.1";
+                if (control.Name == "txtCrossoverRate")
+                    control.Text = "0.75";
             }
+        }
+
+        private void btnApplyMutationRate_Click(object sender, EventArgs e)
+        {
+            ValidateAlgorithmRates(txtMutationRate);
+            ValidateAlgorithmRates(txtCrossoverRate);
+        }
+
+        private void lblBestAerofoil_TextChanged(object sender, EventArgs e)
+        {
+            pctAirfoil.Invalidate();
+        }
+
+        private void pctAirfoil_Paint(object sender, PaintEventArgs e)
+        {
+            string airfoilNumber = lblBestAerofoil.Text;
+            AirfoilDrawer.DrawAirfoil(pctAirfoil, airfoilNumber);
         }
     }
 }

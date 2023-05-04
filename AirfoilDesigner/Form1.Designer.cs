@@ -39,7 +39,11 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.grpMutator = new System.Windows.Forms.GroupBox();
+            this.lblBestAerofoilText = new System.Windows.Forms.Label();
+            this.pctAirfoil = new System.Windows.Forms.PictureBox();
+            this.grpRates = new System.Windows.Forms.GroupBox();
+            this.lblCrossoverRate = new System.Windows.Forms.Label();
+            this.txtCrossoverRate = new System.Windows.Forms.TextBox();
             this.btnApplyMutationRate = new System.Windows.Forms.Button();
             this.lblMutationRate = new System.Windows.Forms.Label();
             this.txtMutationRate = new System.Windows.Forms.TextBox();
@@ -66,7 +70,8 @@
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.grpMutator.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pctAirfoil)).BeginInit();
+            this.grpRates.SuspendLayout();
             this.grpXFoilTest.SuspendLayout();
             this.grpPop.SuspendLayout();
             this.SuspendLayout();
@@ -176,7 +181,9 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.grpMutator);
+            this.tabPage2.Controls.Add(this.lblBestAerofoilText);
+            this.tabPage2.Controls.Add(this.pctAirfoil);
+            this.tabPage2.Controls.Add(this.grpRates);
             this.tabPage2.Controls.Add(this.lblBestFitness);
             this.tabPage2.Controls.Add(this.lblBestAerofoil);
             this.tabPage2.Controls.Add(this.lblGenNum);
@@ -190,21 +197,57 @@
             this.tabPage2.Text = "GA";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // grpMutator
+            // lblBestAerofoilText
             // 
-            this.grpMutator.Controls.Add(this.btnApplyMutationRate);
-            this.grpMutator.Controls.Add(this.lblMutationRate);
-            this.grpMutator.Controls.Add(this.txtMutationRate);
-            this.grpMutator.Location = new System.Drawing.Point(4, 120);
-            this.grpMutator.Name = "grpMutator";
-            this.grpMutator.Size = new System.Drawing.Size(175, 85);
-            this.grpMutator.TabIndex = 5;
-            this.grpMutator.TabStop = false;
-            this.grpMutator.Text = "Mutator";
+            this.lblBestAerofoilText.AutoSize = true;
+            this.lblBestAerofoilText.Location = new System.Drawing.Point(365, 50);
+            this.lblBestAerofoilText.Name = "lblBestAerofoilText";
+            this.lblBestAerofoilText.Size = new System.Drawing.Size(77, 15);
+            this.lblBestAerofoilText.TabIndex = 23;
+            this.lblBestAerofoilText.Text = "Best Aerofoil:";
+            // 
+            // pctAirfoil
+            // 
+            this.pctAirfoil.Location = new System.Drawing.Point(365, 83);
+            this.pctAirfoil.Name = "pctAirfoil";
+            this.pctAirfoil.Size = new System.Drawing.Size(257, 85);
+            this.pctAirfoil.TabIndex = 22;
+            this.pctAirfoil.TabStop = false;
+            this.pctAirfoil.Paint += new System.Windows.Forms.PaintEventHandler(this.pctAirfoil_Paint);
+            // 
+            // grpRates
+            // 
+            this.grpRates.Controls.Add(this.lblCrossoverRate);
+            this.grpRates.Controls.Add(this.txtCrossoverRate);
+            this.grpRates.Controls.Add(this.btnApplyMutationRate);
+            this.grpRates.Controls.Add(this.lblMutationRate);
+            this.grpRates.Controls.Add(this.txtMutationRate);
+            this.grpRates.Location = new System.Drawing.Point(4, 120);
+            this.grpRates.Name = "grpRates";
+            this.grpRates.Size = new System.Drawing.Size(175, 107);
+            this.grpRates.TabIndex = 5;
+            this.grpRates.TabStop = false;
+            this.grpRates.Text = "Mutator";
+            // 
+            // lblCrossoverRate
+            // 
+            this.lblCrossoverRate.AutoSize = true;
+            this.lblCrossoverRate.Location = new System.Drawing.Point(6, 47);
+            this.lblCrossoverRate.Name = "lblCrossoverRate";
+            this.lblCrossoverRate.Size = new System.Drawing.Size(88, 15);
+            this.lblCrossoverRate.TabIndex = 6;
+            this.lblCrossoverRate.Text = "Crossover Rate:";
+            // 
+            // txtCrossoverRate
+            // 
+            this.txtCrossoverRate.Location = new System.Drawing.Point(103, 44);
+            this.txtCrossoverRate.Name = "txtCrossoverRate";
+            this.txtCrossoverRate.Size = new System.Drawing.Size(61, 23);
+            this.txtCrossoverRate.TabIndex = 5;
             // 
             // btnApplyMutationRate
             // 
-            this.btnApplyMutationRate.Location = new System.Drawing.Point(6, 44);
+            this.btnApplyMutationRate.Location = new System.Drawing.Point(6, 73);
             this.btnApplyMutationRate.Name = "btnApplyMutationRate";
             this.btnApplyMutationRate.Size = new System.Drawing.Size(158, 23);
             this.btnApplyMutationRate.TabIndex = 4;
@@ -231,7 +274,7 @@
             // lblBestFitness
             // 
             this.lblBestFitness.AutoSize = true;
-            this.lblBestFitness.Location = new System.Drawing.Point(397, 65);
+            this.lblBestFitness.Location = new System.Drawing.Point(365, 65);
             this.lblBestFitness.Name = "lblBestFitness";
             this.lblBestFitness.Size = new System.Drawing.Size(71, 15);
             this.lblBestFitness.TabIndex = 21;
@@ -240,16 +283,16 @@
             // lblBestAerofoil
             // 
             this.lblBestAerofoil.AutoSize = true;
-            this.lblBestAerofoil.Location = new System.Drawing.Point(397, 50);
+            this.lblBestAerofoil.Location = new System.Drawing.Point(474, 50);
             this.lblBestAerofoil.Name = "lblBestAerofoil";
-            this.lblBestAerofoil.Size = new System.Drawing.Size(77, 15);
+            this.lblBestAerofoil.Size = new System.Drawing.Size(0, 15);
             this.lblBestAerofoil.TabIndex = 20;
-            this.lblBestAerofoil.Text = "Best Aerofoil:";
+            this.lblBestAerofoil.TextChanged += new System.EventHandler(this.lblBestAerofoil_TextChanged);
             // 
             // lblGenNum
             // 
             this.lblGenNum.AutoSize = true;
-            this.lblGenNum.Location = new System.Drawing.Point(397, 20);
+            this.lblGenNum.Location = new System.Drawing.Point(365, 21);
             this.lblGenNum.Name = "lblGenNum";
             this.lblGenNum.Size = new System.Drawing.Size(115, 15);
             this.lblGenNum.TabIndex = 19;
@@ -268,7 +311,7 @@
             this.grpXFoilTest.Controls.Add(this.txtReynolds);
             this.grpXFoilTest.Controls.Add(this.txtCritExponent);
             this.grpXFoilTest.Controls.Add(this.lblCritExponent);
-            this.grpXFoilTest.Location = new System.Drawing.Point(6, 211);
+            this.grpXFoilTest.Location = new System.Drawing.Point(6, 245);
             this.grpXFoilTest.Name = "grpXFoilTest";
             this.grpXFoilTest.Size = new System.Drawing.Size(254, 192);
             this.grpXFoilTest.TabIndex = 7;
@@ -419,7 +462,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(671, 483);
+            this.ClientSize = new System.Drawing.Size(671, 485);
             this.Controls.Add(this.tabControl1);
             this.Name = "frmMainWindow";
             this.Text = "Aerofoil Designer";
@@ -429,8 +472,9 @@
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
-            this.grpMutator.ResumeLayout(false);
-            this.grpMutator.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pctAirfoil)).EndInit();
+            this.grpRates.ResumeLayout(false);
+            this.grpRates.PerformLayout();
             this.grpXFoilTest.ResumeLayout(false);
             this.grpXFoilTest.PerformLayout();
             this.grpPop.ResumeLayout(false);
@@ -471,9 +515,13 @@
         public TextBox txtPopSize;
         public Label lblBestAerofoil;
         public Label lblBestFitness;
-        private GroupBox grpMutator;
+        private GroupBox grpRates;
         private Button btnApplyMutationRate;
         private Label lblMutationRate;
         public TextBox txtMutationRate;
+        public Label lblBestAerofoilText;
+        private PictureBox pctAirfoil;
+        private Label lblCrossoverRate;
+        public TextBox txtCrossoverRate;
     }
 }
