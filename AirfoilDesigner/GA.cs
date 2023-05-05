@@ -80,6 +80,7 @@ namespace AirfoilDesigner
 
             xFoil.Start();
 
+            var p = Program.form1;
             using (StreamWriter sw = xFoil.StandardInput)
             {
                 if (sw.BaseStream.CanWrite)
@@ -87,13 +88,13 @@ namespace AirfoilDesigner
                     sw.WriteLine($"load {name}.dat");
                     sw.WriteLine("oper"); // Direct operating points mode
                     sw.WriteLine("vpar"); // Change BL parameters
-                    sw.WriteLine("n 9"); // Change critical amplification exponent
+                    sw.WriteLine($"n {p.txtCritExponent.Text}"); // Change critical amplification exponent
                     sw.WriteLine(" ");
-                    sw.WriteLine($"visc {Program.form1.txtReynolds.Text}"); // Toggle to viscous mode and set Reynold's number
+                    sw.WriteLine($"visc {p.txtReynolds.Text}"); // Toggle to viscous mode and set Reynold's number
                     sw.WriteLine("pacc"); // Toggle auto point accumulation to active polar
                     sw.WriteLine($"{name}.log"); // Polar save filename
                     sw.WriteLine(" ");
-                    sw.WriteLine("aseq 0.0 15.0 1.0"); // Prescribe a series of alphas
+                    sw.WriteLine($"aseq {p.txtAlphaStart.Text} {p.txtAlphaEnd.Text} {p.txtAlphaIncrement.Text}"); // Prescribe a series of alphas
                     sw.WriteLine(" ");
                     sw.WriteLine("quit"); 
                 }
