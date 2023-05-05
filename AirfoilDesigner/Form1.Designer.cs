@@ -39,10 +39,17 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btnSave = new System.Windows.Forms.Button();
             this.lblBestAerofoilText = new System.Windows.Forms.Label();
             this.pctAirfoil = new System.Windows.Forms.PictureBox();
             this.grpRates = new System.Windows.Forms.GroupBox();
+            this.btnRunEpoch = new System.Windows.Forms.Button();
+            this.lblSelectionMethod = new System.Windows.Forms.Label();
+            this.btnGenPop = new System.Windows.Forms.Button();
+            this.lblPopSize = new System.Windows.Forms.Label();
             this.lblCrossoverRate = new System.Windows.Forms.Label();
+            this.txtPopSize = new System.Windows.Forms.TextBox();
+            this.cmbSelectionMethod = new System.Windows.Forms.ComboBox();
             this.txtCrossoverRate = new System.Windows.Forms.TextBox();
             this.btnApplyMutationRate = new System.Windows.Forms.Button();
             this.lblMutationRate = new System.Windows.Forms.Label();
@@ -62,18 +69,12 @@
             this.txtReynolds = new System.Windows.Forms.TextBox();
             this.txtCritExponent = new System.Windows.Forms.TextBox();
             this.lblCritExponent = new System.Windows.Forms.Label();
-            this.grpPop = new System.Windows.Forms.GroupBox();
-            this.btnRunEpoch = new System.Windows.Forms.Button();
-            this.lblPopSize = new System.Windows.Forms.Label();
-            this.btnGenPop = new System.Windows.Forms.Button();
-            this.txtPopSize = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pctAirfoil)).BeginInit();
             this.grpRates.SuspendLayout();
             this.grpXFoilTest.SuspendLayout();
-            this.grpPop.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnRunXFoil
@@ -99,12 +100,12 @@
             // 
             this.txtAerofoilFile.Location = new System.Drawing.Point(6, 48);
             this.txtAerofoilFile.Name = "txtAerofoilFile";
-            this.txtAerofoilFile.Size = new System.Drawing.Size(448, 23);
+            this.txtAerofoilFile.Size = new System.Drawing.Size(327, 23);
             this.txtAerofoilFile.TabIndex = 5;
             // 
             // btnAerofoilFile
             // 
-            this.btnAerofoilFile.Location = new System.Drawing.Point(460, 48);
+            this.btnAerofoilFile.Location = new System.Drawing.Point(339, 48);
             this.btnAerofoilFile.Name = "btnAerofoilFile";
             this.btnAerofoilFile.Size = new System.Drawing.Size(75, 23);
             this.btnAerofoilFile.TabIndex = 6;
@@ -114,7 +115,7 @@
             // 
             // btnLoadAerofoil
             // 
-            this.btnLoadAerofoil.Location = new System.Drawing.Point(541, 48);
+            this.btnLoadAerofoil.Location = new System.Drawing.Point(420, 47);
             this.btnLoadAerofoil.Name = "btnLoadAerofoil";
             this.btnLoadAerofoil.Size = new System.Drawing.Size(105, 23);
             this.btnLoadAerofoil.TabIndex = 7;
@@ -138,7 +139,7 @@
             this.txtLDRatio.Multiline = true;
             this.txtLDRatio.Name = "txtLDRatio";
             this.txtLDRatio.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtLDRatio.Size = new System.Drawing.Size(279, 287);
+            this.txtLDRatio.Size = new System.Drawing.Size(163, 296);
             this.txtLDRatio.TabIndex = 9;
             // 
             // btnLDRatio
@@ -158,7 +159,7 @@
             this.tabControl1.Location = new System.Drawing.Point(4, 6);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(663, 471);
+            this.tabControl1.Size = new System.Drawing.Size(539, 465);
             this.tabControl1.TabIndex = 13;
             // 
             // tabPage1
@@ -174,13 +175,14 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(655, 443);
+            this.tabPage1.Size = new System.Drawing.Size(531, 437);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Testing";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.btnSave);
             this.tabPage2.Controls.Add(this.lblBestAerofoilText);
             this.tabPage2.Controls.Add(this.pctAirfoil);
             this.tabPage2.Controls.Add(this.grpRates);
@@ -188,19 +190,28 @@
             this.tabPage2.Controls.Add(this.lblBestAerofoil);
             this.tabPage2.Controls.Add(this.lblGenNum);
             this.tabPage2.Controls.Add(this.grpXFoilTest);
-            this.tabPage2.Controls.Add(this.grpPop);
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(655, 443);
+            this.tabPage2.Size = new System.Drawing.Size(531, 437);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "GA";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(339, 212);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(145, 23);
+            this.btnSave.TabIndex = 24;
+            this.btnSave.Text = "Save Generated Aerofoils";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
             // lblBestAerofoilText
             // 
             this.lblBestAerofoilText.AutoSize = true;
-            this.lblBestAerofoilText.Location = new System.Drawing.Point(365, 50);
+            this.lblBestAerofoilText.Location = new System.Drawing.Point(266, 24);
             this.lblBestAerofoilText.Name = "lblBestAerofoilText";
             this.lblBestAerofoilText.Size = new System.Drawing.Size(77, 15);
             this.lblBestAerofoilText.TabIndex = 23;
@@ -208,48 +219,113 @@
             // 
             // pctAirfoil
             // 
-            this.pctAirfoil.Location = new System.Drawing.Point(365, 83);
+            this.pctAirfoil.Location = new System.Drawing.Point(266, 57);
             this.pctAirfoil.Name = "pctAirfoil";
-            this.pctAirfoil.Size = new System.Drawing.Size(257, 85);
+            this.pctAirfoil.Size = new System.Drawing.Size(259, 85);
             this.pctAirfoil.TabIndex = 22;
             this.pctAirfoil.TabStop = false;
             this.pctAirfoil.Paint += new System.Windows.Forms.PaintEventHandler(this.pctAirfoil_Paint);
             // 
             // grpRates
             // 
+            this.grpRates.Controls.Add(this.btnRunEpoch);
+            this.grpRates.Controls.Add(this.lblSelectionMethod);
+            this.grpRates.Controls.Add(this.btnGenPop);
+            this.grpRates.Controls.Add(this.lblPopSize);
             this.grpRates.Controls.Add(this.lblCrossoverRate);
+            this.grpRates.Controls.Add(this.txtPopSize);
+            this.grpRates.Controls.Add(this.cmbSelectionMethod);
             this.grpRates.Controls.Add(this.txtCrossoverRate);
             this.grpRates.Controls.Add(this.btnApplyMutationRate);
             this.grpRates.Controls.Add(this.lblMutationRate);
             this.grpRates.Controls.Add(this.txtMutationRate);
-            this.grpRates.Location = new System.Drawing.Point(4, 120);
+            this.grpRates.Location = new System.Drawing.Point(6, 6);
             this.grpRates.Name = "grpRates";
-            this.grpRates.Size = new System.Drawing.Size(175, 107);
+            this.grpRates.Size = new System.Drawing.Size(204, 224);
             this.grpRates.TabIndex = 5;
             this.grpRates.TabStop = false;
-            this.grpRates.Text = "Mutator";
+            this.grpRates.Text = "Genetic Algorithm Parameters";
+            // 
+            // btnRunEpoch
+            // 
+            this.btnRunEpoch.Enabled = false;
+            this.btnRunEpoch.Location = new System.Drawing.Point(6, 189);
+            this.btnRunEpoch.Name = "btnRunEpoch";
+            this.btnRunEpoch.Size = new System.Drawing.Size(186, 23);
+            this.btnRunEpoch.TabIndex = 4;
+            this.btnRunEpoch.Text = "Run One Epoch";
+            this.btnRunEpoch.UseVisualStyleBackColor = true;
+            this.btnRunEpoch.Click += new System.EventHandler(this.btnRunEpoch_Click);
+            // 
+            // lblSelectionMethod
+            // 
+            this.lblSelectionMethod.AutoSize = true;
+            this.lblSelectionMethod.Location = new System.Drawing.Point(6, 105);
+            this.lblSelectionMethod.Name = "lblSelectionMethod";
+            this.lblSelectionMethod.Size = new System.Drawing.Size(103, 15);
+            this.lblSelectionMethod.TabIndex = 7;
+            this.lblSelectionMethod.Text = "Selection Method:";
+            // 
+            // btnGenPop
+            // 
+            this.btnGenPop.Location = new System.Drawing.Point(6, 160);
+            this.btnGenPop.Name = "btnGenPop";
+            this.btnGenPop.Size = new System.Drawing.Size(186, 23);
+            this.btnGenPop.TabIndex = 0;
+            this.btnGenPop.Text = "Generate Population";
+            this.btnGenPop.UseVisualStyleBackColor = true;
+            this.btnGenPop.Click += new System.EventHandler(this.btnGenPop_Click);
+            // 
+            // lblPopSize
+            // 
+            this.lblPopSize.AutoSize = true;
+            this.lblPopSize.Location = new System.Drawing.Point(6, 19);
+            this.lblPopSize.Name = "lblPopSize";
+            this.lblPopSize.Size = new System.Drawing.Size(91, 15);
+            this.lblPopSize.TabIndex = 1;
+            this.lblPopSize.Text = "Population Size:";
             // 
             // lblCrossoverRate
             // 
             this.lblCrossoverRate.AutoSize = true;
-            this.lblCrossoverRate.Location = new System.Drawing.Point(6, 47);
+            this.lblCrossoverRate.Location = new System.Drawing.Point(6, 76);
             this.lblCrossoverRate.Name = "lblCrossoverRate";
             this.lblCrossoverRate.Size = new System.Drawing.Size(88, 15);
             this.lblCrossoverRate.TabIndex = 6;
             this.lblCrossoverRate.Text = "Crossover Rate:";
             // 
+            // txtPopSize
+            // 
+            this.txtPopSize.Location = new System.Drawing.Point(115, 15);
+            this.txtPopSize.Name = "txtPopSize";
+            this.txtPopSize.Size = new System.Drawing.Size(61, 23);
+            this.txtPopSize.TabIndex = 2;
+            // 
+            // cmbSelectionMethod
+            // 
+            this.cmbSelectionMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSelectionMethod.FormattingEnabled = true;
+            this.cmbSelectionMethod.Items.AddRange(new object[] {
+            "Elite",
+            "Rank",
+            "Roulette"});
+            this.cmbSelectionMethod.Location = new System.Drawing.Point(115, 102);
+            this.cmbSelectionMethod.Name = "cmbSelectionMethod";
+            this.cmbSelectionMethod.Size = new System.Drawing.Size(77, 23);
+            this.cmbSelectionMethod.TabIndex = 24;
+            // 
             // txtCrossoverRate
             // 
-            this.txtCrossoverRate.Location = new System.Drawing.Point(103, 44);
+            this.txtCrossoverRate.Location = new System.Drawing.Point(115, 73);
             this.txtCrossoverRate.Name = "txtCrossoverRate";
-            this.txtCrossoverRate.Size = new System.Drawing.Size(61, 23);
+            this.txtCrossoverRate.Size = new System.Drawing.Size(48, 23);
             this.txtCrossoverRate.TabIndex = 5;
             // 
             // btnApplyMutationRate
             // 
-            this.btnApplyMutationRate.Location = new System.Drawing.Point(6, 73);
+            this.btnApplyMutationRate.Location = new System.Drawing.Point(6, 131);
             this.btnApplyMutationRate.Name = "btnApplyMutationRate";
-            this.btnApplyMutationRate.Size = new System.Drawing.Size(158, 23);
+            this.btnApplyMutationRate.Size = new System.Drawing.Size(186, 23);
             this.btnApplyMutationRate.TabIndex = 4;
             this.btnApplyMutationRate.Text = "Apply";
             this.btnApplyMutationRate.UseVisualStyleBackColor = true;
@@ -258,7 +334,7 @@
             // lblMutationRate
             // 
             this.lblMutationRate.AutoSize = true;
-            this.lblMutationRate.Location = new System.Drawing.Point(6, 19);
+            this.lblMutationRate.Location = new System.Drawing.Point(6, 47);
             this.lblMutationRate.Name = "lblMutationRate";
             this.lblMutationRate.Size = new System.Drawing.Size(85, 15);
             this.lblMutationRate.TabIndex = 1;
@@ -266,15 +342,15 @@
             // 
             // txtMutationRate
             // 
-            this.txtMutationRate.Location = new System.Drawing.Point(103, 15);
+            this.txtMutationRate.Location = new System.Drawing.Point(115, 44);
             this.txtMutationRate.Name = "txtMutationRate";
-            this.txtMutationRate.Size = new System.Drawing.Size(61, 23);
+            this.txtMutationRate.Size = new System.Drawing.Size(48, 23);
             this.txtMutationRate.TabIndex = 2;
             // 
             // lblBestFitness
             // 
             this.lblBestFitness.AutoSize = true;
-            this.lblBestFitness.Location = new System.Drawing.Point(365, 65);
+            this.lblBestFitness.Location = new System.Drawing.Point(266, 39);
             this.lblBestFitness.Name = "lblBestFitness";
             this.lblBestFitness.Size = new System.Drawing.Size(71, 15);
             this.lblBestFitness.TabIndex = 21;
@@ -283,7 +359,7 @@
             // lblBestAerofoil
             // 
             this.lblBestAerofoil.AutoSize = true;
-            this.lblBestAerofoil.Location = new System.Drawing.Point(474, 50);
+            this.lblBestAerofoil.Location = new System.Drawing.Point(343, 24);
             this.lblBestAerofoil.Name = "lblBestAerofoil";
             this.lblBestAerofoil.Size = new System.Drawing.Size(0, 15);
             this.lblBestAerofoil.TabIndex = 20;
@@ -292,7 +368,7 @@
             // lblGenNum
             // 
             this.lblGenNum.AutoSize = true;
-            this.lblGenNum.Location = new System.Drawing.Point(365, 21);
+            this.lblGenNum.Location = new System.Drawing.Point(266, 6);
             this.lblGenNum.Name = "lblGenNum";
             this.lblGenNum.Size = new System.Drawing.Size(115, 15);
             this.lblGenNum.TabIndex = 19;
@@ -311,7 +387,7 @@
             this.grpXFoilTest.Controls.Add(this.txtReynolds);
             this.grpXFoilTest.Controls.Add(this.txtCritExponent);
             this.grpXFoilTest.Controls.Add(this.lblCritExponent);
-            this.grpXFoilTest.Location = new System.Drawing.Point(6, 245);
+            this.grpXFoilTest.Location = new System.Drawing.Point(6, 236);
             this.grpXFoilTest.Name = "grpXFoilTest";
             this.grpXFoilTest.Size = new System.Drawing.Size(254, 192);
             this.grpXFoilTest.TabIndex = 7;
@@ -320,9 +396,9 @@
             // 
             // btnXFoilParamsApply
             // 
-            this.btnXFoilParamsApply.Location = new System.Drawing.Point(150, 161);
+            this.btnXFoilParamsApply.Location = new System.Drawing.Point(6, 161);
             this.btnXFoilParamsApply.Name = "btnXFoilParamsApply";
-            this.btnXFoilParamsApply.Size = new System.Drawing.Size(75, 23);
+            this.btnXFoilParamsApply.Size = new System.Drawing.Size(242, 23);
             this.btnXFoilParamsApply.TabIndex = 20;
             this.btnXFoilParamsApply.Text = "Apply";
             this.btnXFoilParamsApply.UseVisualStyleBackColor = true;
@@ -389,7 +465,7 @@
             // 
             this.txtReynolds.Location = new System.Drawing.Point(187, 45);
             this.txtReynolds.Name = "txtReynolds";
-            this.txtReynolds.Size = new System.Drawing.Size(56, 23);
+            this.txtReynolds.Size = new System.Drawing.Size(61, 23);
             this.txtReynolds.TabIndex = 13;
             // 
             // txtCritExponent
@@ -408,61 +484,11 @@
             this.lblCritExponent.TabIndex = 0;
             this.lblCritExponent.Text = "Critical Amplification Exponent:";
             // 
-            // grpPop
-            // 
-            this.grpPop.Controls.Add(this.btnRunEpoch);
-            this.grpPop.Controls.Add(this.lblPopSize);
-            this.grpPop.Controls.Add(this.btnGenPop);
-            this.grpPop.Controls.Add(this.txtPopSize);
-            this.grpPop.Location = new System.Drawing.Point(6, 6);
-            this.grpPop.Name = "grpPop";
-            this.grpPop.Size = new System.Drawing.Size(175, 108);
-            this.grpPop.TabIndex = 3;
-            this.grpPop.TabStop = false;
-            this.grpPop.Text = "Population";
-            // 
-            // btnRunEpoch
-            // 
-            this.btnRunEpoch.Enabled = false;
-            this.btnRunEpoch.Location = new System.Drawing.Point(6, 73);
-            this.btnRunEpoch.Name = "btnRunEpoch";
-            this.btnRunEpoch.Size = new System.Drawing.Size(158, 23);
-            this.btnRunEpoch.TabIndex = 4;
-            this.btnRunEpoch.Text = "Run One Epoch";
-            this.btnRunEpoch.UseVisualStyleBackColor = true;
-            this.btnRunEpoch.Click += new System.EventHandler(this.btnRunEpoch_Click);
-            // 
-            // lblPopSize
-            // 
-            this.lblPopSize.AutoSize = true;
-            this.lblPopSize.Location = new System.Drawing.Point(6, 19);
-            this.lblPopSize.Name = "lblPopSize";
-            this.lblPopSize.Size = new System.Drawing.Size(91, 15);
-            this.lblPopSize.TabIndex = 1;
-            this.lblPopSize.Text = "Population Size:";
-            // 
-            // btnGenPop
-            // 
-            this.btnGenPop.Location = new System.Drawing.Point(6, 44);
-            this.btnGenPop.Name = "btnGenPop";
-            this.btnGenPop.Size = new System.Drawing.Size(158, 23);
-            this.btnGenPop.TabIndex = 0;
-            this.btnGenPop.Text = "Generate Population";
-            this.btnGenPop.UseVisualStyleBackColor = true;
-            this.btnGenPop.Click += new System.EventHandler(this.btnGenPop_Click);
-            // 
-            // txtPopSize
-            // 
-            this.txtPopSize.Location = new System.Drawing.Point(103, 15);
-            this.txtPopSize.Name = "txtPopSize";
-            this.txtPopSize.Size = new System.Drawing.Size(61, 23);
-            this.txtPopSize.TabIndex = 2;
-            // 
             // frmMainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(671, 485);
+            this.ClientSize = new System.Drawing.Size(553, 476);
             this.Controls.Add(this.tabControl1);
             this.Name = "frmMainWindow";
             this.Text = "Aerofoil Designer";
@@ -477,8 +503,6 @@
             this.grpRates.PerformLayout();
             this.grpXFoilTest.ResumeLayout(false);
             this.grpXFoilTest.PerformLayout();
-            this.grpPop.ResumeLayout(false);
-            this.grpPop.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -496,7 +520,6 @@
         private TabPage tabPage1;
         private TabPage tabPage2;
         private Button btnGenPop;
-        private GroupBox grpPop;
         private Button btnRunEpoch;
         private Label lblPopSize;
         private GroupBox grpXFoilTest;
@@ -523,5 +546,8 @@
         private PictureBox pctAirfoil;
         private Label lblCrossoverRate;
         public TextBox txtCrossoverRate;
+        private Label lblSelectionMethod;
+        public ComboBox cmbSelectionMethod;
+        private Button btnSave;
     }
 }

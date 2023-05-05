@@ -10,6 +10,8 @@ namespace AirfoilDesigner
     public class AirfoilGenerator
     {
         // This code makes use of the Bezier code to generate aerofoils.
+        // The genParams list takes in the normalised chromosome values.
+        // The name string takes the number of the generated chromosome and uses it as the name for the aerofoil.
         public static void GenAirfoil(double[] genParams, string name)
         {
             List<double> upperX = new List<double>() { 0, 0, 0.25, 0.5, 0.75, 1 };
@@ -17,17 +19,17 @@ namespace AirfoilDesigner
             List<double> upperY = new List<double>() { 0, 0, 0, 0, 0, 0 };
             List<double> lowerY = new List<double>() { 0, 0, 0, 0, 0, 0 };
 
-            // Values for leading edge.
+            // Inset values for leading edge into the coordinates lists.
             upperY.Insert(1, genParams[0]);
             lowerY.Insert(1, -genParams[1]);
 
-            // Values for camber.
+            // Inesrt values for camber into the coordinates lists.
             // Camber  is the distance between the chord and the centre line of the airfoil.
             upperY.Insert(2, (genParams[2] + genParams[5]));
             upperY.Insert(3, (genParams[3] + genParams[6]));
             upperY.Insert(4, (genParams[4] + genParams[7]));
 
-            // Values for thickness.
+            // Insert values for thickness into the coordinates lists.
             // Thickness is the max distance between the edges of the airfoil
             lowerY.Insert(2, (genParams[2] - genParams[5]));
             lowerY.Insert(3, (genParams[3] - genParams[6]));
@@ -37,6 +39,7 @@ namespace AirfoilDesigner
             int interpolationPoints = 50;
             Bezier BezierCurve = new Bezier(6);
 
+            // Use the lists of coordinates to generate Bezier curves.
             List<double> bezierUpperX = BezierCurve.Interpolate(upperX.ToList(), interpolationPoints);
             List<double> bezierUpperY = BezierCurve.Interpolate(upperY.ToList(), interpolationPoints);
             List<double> bezierLowerX = BezierCurve.Interpolate(lowerX.ToList(), interpolationPoints);

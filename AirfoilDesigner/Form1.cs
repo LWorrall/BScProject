@@ -119,6 +119,9 @@ namespace AirfoilDesigner
                 MessageBox.Show($"No Aerofoil file selected.", "Error");            
         }
 
+
+        // Code for the GA Tab.
+
         private void frmMainWindow_Load(object sender, EventArgs e)
         {
             txtCritExponent.Text = "9";
@@ -129,23 +132,31 @@ namespace AirfoilDesigner
             txtMutationRate.Text = "0.1";
             txtCrossoverRate.Text = "0.75";
             txtPopSize.Text = "10";
+            cmbSelectionMethod.SelectedIndex = 0;
         }
 
         private void btnGenPop_Click(object sender, EventArgs e)
         {
             if (int.TryParse(txtPopSize.Text, out int intValue))
             {
-                Task delete = Task.Run(() => {
-                    // Delete .dat and .log files of previous aerofoils.
-                    foreach (string file in Directory.GetFiles(".", "*.dat"))
-                        File.Delete(file);
-                    foreach (string file in Directory.GetFiles(".", "*.log"))
-                        File.Delete(file);
-                });
-                delete.Wait(-1);
+                // If the population size is less than or equal to 1, disallow it and change it to 10.
+                if(Convert.ToInt32(txtPopSize.Text) <= 1)
+                    txtPopSize.Text = "10";
+                else
+                {
+                    // If the population size is an integer greater than 0, continue.
+                    Task delete = Task.Run(() => {
+                        // Delete .dat and .log files of previous aerofoils.
+                        foreach (string file in Directory.GetFiles(".", "*.dat"))
+                            File.Delete(file);
+                        foreach (string file in Directory.GetFiles(".", "*.log"))
+                            File.Delete(file);
+                    });
+                    delete.Wait(-1);
 
-                GA.GenPop();
-                btnRunEpoch.Enabled = true;
+                    GA.GenPop();
+                    btnRunEpoch.Enabled = true;
+                }
             }
             else
                 txtPopSize.Text = "10";
@@ -208,6 +219,7 @@ namespace AirfoilDesigner
             if (double.TryParse(control.Text, out double doubleValue))
             {
                 control.Text = $"{doubleValue}";
+                // If the values is between 0.1 to 1, allow it.
                 if (doubleValue >= 0.1 && doubleValue <= 1)
                     control.Text = $"{doubleValue}";
                 else
@@ -243,6 +255,30 @@ namespace AirfoilDesigner
         {
             string airfoilNumber = lblBestAerofoil.Text;
             AirfoilDrawer.DrawAirfoil(pctAirfoil, airfoilNumber);
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            Save();
+        }
+
+        // Function to save generated airfoil files into a new time-stamped folder.
+        public static void Save()
+        {
+            if(File.Exists("1.dat"))
+            {
+                string formatDateTime = DateTime.Now.ToString("dd.MM.yy HH.mm.ss");
+                Directory.CreateDirectory(formatDateTime);
+                foreach (string file in Directory.GetFiles(".", "*.dat"))
+                    File.Copy(file, $"{formatDateTime}/{file}");
+                foreach (string file in Directory.GetFiles(".", "*.log"))
+                    File.Copy(file, $"{formatDateTime}/{file}");
+                MessageBox.Show($"Aerofoil files saved in folder named: {formatDateTime}.", "Files Saved");
+            }
+            else
+            {
+                MessageBox.Show("Error: No aerofoil files to save.", "Errror: No Files");
+            }
         }
     }
 }

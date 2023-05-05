@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\user\\Desktop\\COMP3000 Individual Project\\Software\\AirfoilDesigner v15\\AirfoilDesigner\\AirfoilDesigner.csproj": {}
+    "C:\\Users\\user\\Desktop\\COMP3000 Individual Project\\Software\\AirfoilDesigner v16\\AirfoilDesigner\\AirfoilDesigner.csproj": {}
   },
   "projects": {
-    "C:\\Users\\user\\Desktop\\COMP3000 Individual Project\\Software\\AirfoilDesigner v15\\AirfoilDesigner\\AirfoilDesigner.csproj": {
+    "C:\\Users\\user\\Desktop\\COMP3000 Individual Project\\Software\\AirfoilDesigner v16\\AirfoilDesigner\\AirfoilDesigner.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\Desktop\\COMP3000 Individual Project\\Software\\AirfoilDesigner v15\\AirfoilDesigner\\AirfoilDesigner.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Desktop\\COMP3000 Individual Project\\Software\\AirfoilDesigner v16\\AirfoilDesigner\\AirfoilDesigner.csproj",
         "projectName": "AirfoilDesigner",
-        "projectPath": "C:\\Users\\user\\Desktop\\COMP3000 Individual Project\\Software\\AirfoilDesigner v15\\AirfoilDesigner\\AirfoilDesigner.csproj",
+        "projectPath": "C:\\Users\\user\\Desktop\\COMP3000 Individual Project\\Software\\AirfoilDesigner v16\\AirfoilDesigner\\AirfoilDesigner.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\Desktop\\COMP3000 Individual Project\\Software\\AirfoilDesigner v15\\AirfoilDesigner\\obj\\",
+        "outputPath": "C:\\Users\\user\\Desktop\\COMP3000 Individual Project\\Software\\AirfoilDesigner v16\\AirfoilDesigner\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",

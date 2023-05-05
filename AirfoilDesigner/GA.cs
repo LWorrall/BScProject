@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Security.Cryptography.X509Certificates;
 using AForge.Genetic;
 
 
@@ -8,39 +9,57 @@ namespace AirfoilDesigner
     public class GA
     {
         // Instanciating objects and creating properties.
-        public static int arrayLen { get; set; }    // Default 50
-        public static int arrayMaxVal { get; set; } // Default 150000
-        public static void UpdateArrayLen(int x) { arrayLen = x; }
-        public static void UpdateArrayMaxVal(int x) { arrayMaxVal = x; }
+        public static void UpdateMutationRate(string value)
+        { Population.MutationRate = Convert.ToDouble(value); }
+
+        public static void UpdateCrossoverRate(string value)
+        { Population.CrossoverRate = Convert.ToDouble(value); }
 
         public static ShortArrayChromosome InitialAgent = new ShortArrayChromosome(8, 100);
 
         public static AirfoilFitness FitnessFunction = new AirfoilFitness();
         
         // Use elite selection; a limited number of the best agents are passed into the next generation.
-        public static EliteSelection SelectionMethod = new EliteSelection();
+        //public static EliteSelection SelectionMethod = new EliteSelection();
 
         public static int GenerationNumber { get; set; }
         public static string BestAerofoil { get; set; }
         public static double BestFitness { get; set; }
         public static int ChromosomeNumber { get; set; }
         public static Population Population { get; set; }
-
-        public double CrossoverRate { get; set; }
-        public double MutationRate { get; set; }
-
+        
+        // Function to assign which selection method will be used based on user input.
+        public static ISelectionMethod ChooseSelection(int selectionIndex)
+        {
+            switch(selectionIndex)
+            {
+                case 0:
+                    EliteSelection eliteSelectionMethod = new EliteSelection();
+                    return eliteSelectionMethod;
+                case 1:
+                    RankSelection rankSelectionMethod = new RankSelection();
+                    return rankSelectionMethod;
+                case 2:
+                    RouletteWheelSelection rouletteSelectionMethod = new RouletteWheelSelection();
+                    return rouletteSelectionMethod;
+            }
+            return null;
+        }
 
         public static void GenPop()
         {
-            Population.MutationRate = Convert.ToDouble(Program.form1.txtMutationRate.Text);
-            Population.CrossoverRate = Convert.ToDouble(Program.form1.txtCrossoverRate.Text);
+            var p = Program.form1;
 
+            
             // Create a new genetic population.
             Population = new Population(
-                Convert.ToInt32(Program.form1.txtPopSize.Text), // This value is the population size.
+                Convert.ToInt32(p.txtPopSize.Text), // This value is the population size.
                 InitialAgent,
                 FitnessFunction,
-                SelectionMethod);
+                ChooseSelection(p.cmbSelectionMethod.SelectedIndex));
+
+            UpdateMutationRate(p.txtMutationRate.Text);
+            UpdateCrossoverRate(p.txtCrossoverRate.Text);
 
             GenerationNumber = 0;   // Reset the generation counter to 0.
             BestAerofoil = "";      //Clear best aerofoil.
