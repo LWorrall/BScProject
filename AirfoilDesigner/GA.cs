@@ -159,7 +159,7 @@ namespace AirfoilDesigner
             if (average > BestFitness)
             {
                 BestAerofoil = name;
-                Program.form1.lblBestAerofoil.Text = $"{BestAerofoil}";
+                Program.form1.lblBestAerofoilNum.Text = $"{BestAerofoil}";
                 BestFitness = average;
                 Program.form1.lblBestFitness.Text = $"Best Fitness: {Convert.ToString(BestFitness)}";
             }

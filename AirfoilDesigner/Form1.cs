@@ -4,7 +4,8 @@ namespace AirfoilDesigner
 {
     public partial class frmMainWindow : Form
     {
-        string xFoilPath = "../../../../xfoilP4.exe";
+        string appPath = Path.GetDirectoryName(Application.ExecutablePath);
+        string xFoilPath = $"./xfoilP4.exe";
         public frmMainWindow()
         {
             InitializeComponent();
@@ -14,7 +15,7 @@ namespace AirfoilDesigner
         {
             Process p = new Process();
             p.StartInfo.FileName = xFoilPath;
-            p.StartInfo.WorkingDirectory = "../../../../";
+            p.StartInfo.WorkingDirectory = appPath;
             p.Start();
         }
 
@@ -23,6 +24,7 @@ namespace AirfoilDesigner
             OpenFileDialog AeroFoilPath = new OpenFileDialog
             {
                 Title = "Select Aerofoil file",
+                InitialDirectory= appPath,
                 CheckFileExists = true,
                 CheckPathExists = true,
                 DefaultExt = "dat",
@@ -36,11 +38,16 @@ namespace AirfoilDesigner
 
         private void btnLoadAerofoil_Click(object sender, EventArgs e)
         {
+            // Get the aerofoil file from the text box.
             string Aerofoil = txtAerofoilFile.Text;
+            // Get the directory that the file is in.
+            string workingDir = Path.GetDirectoryName(Aerofoil);
+            //Get the name of the file to be used to load into XFOIL.
+            string name = Path.GetFileNameWithoutExtension(Aerofoil);
             Process p = new Process();
             p.StartInfo.FileName = xFoilPath;
-            p.StartInfo.WorkingDirectory = "../../../../";
-            p.StartInfo.Arguments = $"load {Aerofoil}";
+            p.StartInfo.WorkingDirectory = workingDir;
+            p.StartInfo.Arguments = $"load {name}.dat";
             if (File.Exists(Aerofoil))
                 p.Start();
             else
@@ -50,20 +57,22 @@ namespace AirfoilDesigner
         private void btnRunTest_Click(object sender, EventArgs e)
         {
             string Aerofoil = txtAerofoilFile.Text;
+            
             if (File.Exists(Aerofoil))
             {
                 string name = Path.GetFileNameWithoutExtension(Aerofoil);
+                string workingDir = Path.GetDirectoryName(Aerofoil);
                 Process xFoil = new Process();
                 xFoil.StartInfo.FileName = xFoilPath;
                 xFoil.StartInfo.RedirectStandardInput = true;
-                xFoil.StartInfo.WorkingDirectory = "../../../../";
+                xFoil.StartInfo.WorkingDirectory = workingDir;
                 xFoil.Start();
 
                 using (StreamWriter sw = xFoil.StandardInput)
                 {
                     if (sw.BaseStream.CanWrite)
                     {
-                        sw.WriteLine($"load {Aerofoil}");
+                        sw.WriteLine($"load {name}.dat");
                         sw.WriteLine("oper"); // Direct operating points mode
                         sw.WriteLine("vpar"); // Change BL parameters
                         sw.WriteLine("n 9"); // Change critical amplification exponent
@@ -82,7 +91,7 @@ namespace AirfoilDesigner
                 MessageBox.Show($"No Aerofoil file selected.", "Error");
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnLDRatio_Click(object sender, EventArgs e)
         {
             txtLDRatio.Text = String.Empty;
             string Aerofoil = txtAerofoilFile.Text;
@@ -119,8 +128,9 @@ namespace AirfoilDesigner
                 MessageBox.Show($"No Aerofoil file selected.", "Error");            
         }
 
-
-        // Code for the GA Tab.
+        //==============================================
+        //============ Code for the GA Tab. ============
+        //==============================================
 
         private void frmMainWindow_Load(object sender, EventArgs e)
         {
@@ -137,29 +147,18 @@ namespace AirfoilDesigner
 
         private void btnGenPop_Click(object sender, EventArgs e)
         {
-            if (int.TryParse(txtPopSize.Text, out int intValue))
-            {
-                // If the population size is less than or equal to 1, disallow it and change it to 10.
-                if(Convert.ToInt32(txtPopSize.Text) <= 1)
-                    txtPopSize.Text = "10";
-                else
-                {
-                    // If the population size is an integer greater than 0, continue.
-                    Task delete = Task.Run(() => {
-                        // Delete .dat and .log files of previous aerofoils.
-                        foreach (string file in Directory.GetFiles(".", "*.dat"))
-                            File.Delete(file);
-                        foreach (string file in Directory.GetFiles(".", "*.log"))
-                            File.Delete(file);
-                    });
-                    delete.Wait(-1);
+            // If the population size is an integer greater than 0, continue.
+            Task delete = Task.Run(() => {
+                // Delete .dat and .log files of previous aerofoils.
+                foreach (string file in Directory.GetFiles(".", "*.dat"))
+                    File.Delete(file);
+                foreach (string file in Directory.GetFiles(".", "*.log"))
+                    File.Delete(file);
+            });
+            delete.Wait(-1);
 
-                    GA.GenPop();
-                    btnRunEpoch.Enabled = true;
-                }
-            }
-            else
-                txtPopSize.Text = "10";
+            GA.GenPop();
+            btnRunEpoch.Enabled = true;
         }
 
         private void btnRunEpoch_Click(object sender, EventArgs e)
@@ -168,6 +167,7 @@ namespace AirfoilDesigner
             GA.Run1Epoch();
         }
 
+
         private void btnXFoilParamsApply_Click(object sender, EventArgs e)
         {
             ValidateNumber(txtCritExponent);
@@ -175,6 +175,19 @@ namespace AirfoilDesigner
             ValidateXfoilInputs(txtAlphaStart);
             ValidateXfoilInputs(txtAlphaEnd);
             ValidateXfoilInputs(txtAlphaIncrement);
+        }
+
+        public static void ValidatePopSize()
+        {
+            var p = Program.form1;
+            if (int.TryParse(p.txtPopSize.Text, out int intValue))
+            {
+                // If the population size is less than or equal to 1, disallow it and change it to 10.
+                if (Convert.ToInt32(p.txtPopSize.Text) <= 1)
+                    p.txtPopSize.Text = "10";
+            }
+            else
+                p.txtPopSize.Text = "10";
         }
 
         public static void ValidateXfoilInputs(Control control)
@@ -242,8 +255,10 @@ namespace AirfoilDesigner
 
         private void btnApplyMutationRate_Click(object sender, EventArgs e)
         {
+            ValidatePopSize();
             ValidateAlgorithmRates(txtMutationRate);
             ValidateAlgorithmRates(txtCrossoverRate);
+            btnGenPop.Enabled = true;
         }
 
         private void lblBestAerofoil_TextChanged(object sender, EventArgs e)
@@ -274,6 +289,8 @@ namespace AirfoilDesigner
                 foreach (string file in Directory.GetFiles(".", "*.log"))
                     File.Copy(file, $"{formatDateTime}/{file}");
                 MessageBox.Show($"Aerofoil files saved in folder named: {formatDateTime}.", "Files Saved");
+                // Open the new folder to show the user.
+                Process.Start("explorer.exe", $"/open, {formatDateTime}");
             }
             else
             {
