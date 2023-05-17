@@ -107,7 +107,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(266, 148);
+            this.btnSave.Location = new System.Drawing.Point(266, 57);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(159, 23);
             this.btnSave.TabIndex = 32;
@@ -358,7 +358,7 @@
             // 
             // pctAirfoil
             // 
-            this.pctAirfoil.Location = new System.Drawing.Point(266, 57);
+            this.pctAirfoil.Location = new System.Drawing.Point(266, 86);
             this.pctAirfoil.Name = "pctAirfoil";
             this.pctAirfoil.Size = new System.Drawing.Size(259, 85);
             this.pctAirfoil.TabIndex = 30;
